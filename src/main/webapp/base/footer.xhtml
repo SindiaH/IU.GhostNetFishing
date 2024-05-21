@@ -1,7 +1,7 @@
 <div class="footer">
     <div class="label">Made by Sindia Höller</div>
     <div class="middle">
-        <a href="/imprint">Impressum</a>
-        <a href="/privacy-policy">Datenschutz</a>
+        <a class="#{navigationBean.isCurrentlyActive('imprint') ? 'active' : ''}" href="/imprint">Impressum</a>
+        <a class="#{navigationBean.isCurrentlyActive('privacy-policy') ? 'active' : ''}" href="/privacy-policy">Datenschutz</a>
     </div>
 </div>

@@ -1,8 +1,8 @@
-<div class="header">
+<div class="header" xmlns:h="http://java.sun.com/jsf/html">
     <div class="label">GhostNetFishing</div>
     <div class="middle">
-        <a href="/report">Netz melden</a>
-        <a href="/overview">Netzübersicht</a>
+        <a class="#{navigationBean.isCurrentlyActive('report') ? 'active' : ''}" href="/report">Netz melden</a>
+        <a class="#{navigationBean.isCurrentlyActive('overview') ? 'active' : ''}" href="/overview">Netzübersicht</a>
     </div>
-    <a href="/login">Login</a>
+    <a class="#{navigationBean.isCurrentlyActive('login') ? 'active' : ''}" href="/login">Login</a>
 </div>

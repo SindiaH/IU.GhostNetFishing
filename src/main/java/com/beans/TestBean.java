@@ -1,4 +1,4 @@
-package com.byteslounge.jsf.war;
+package com.beans;
 
 import java.util.Date;
 import javax.faces.bean.ApplicationScoped;

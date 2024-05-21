@@ -1,4 +1,4 @@
-package com.byteslounge.jsf.war;
+package entities;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

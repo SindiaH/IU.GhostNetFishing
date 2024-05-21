@@ -2,14 +2,14 @@
                 xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
                 xmlns:ui="http://java.sun.com/jsf/facelets">
-    <link type="text/css" rel="stylesheet" href="css/style.css" />
+
 
     <ui:define name="title">GhostNetFishing</ui:define>
 
     <ui:define name="content">
-        
-        <ui:include src="report/report-form.xhtml"/>
+        <p>Message from the testBean: <h:outputText value="#{testBean.message}" /></p>
     </ui:define>
 </ui:composition>
 

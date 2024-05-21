@@ -1,5 +1,6 @@
-package com.byteslounge.jsf.war;
+package com.services;
 
+import entities.Pojo;
 import org.primefaces.model.FilterMeta;
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortOrder;
@@ -34,7 +35,7 @@ public class DataStore {
     public DataStore() {
         System.out.println("Starting app...");
 
-        EntityManagerFactory factory = Persistence.createEntityManagerFactory("simple-jps-app");
+        EntityManagerFactory factory = Persistence.createEntityManagerFactory("ghost-net-app");
         entityManager = factory.createEntityManager();
         System.err.println("EntityManager: " + entityManager);
 
@@ -112,7 +113,7 @@ public class DataStore {
         return new LazyDataModel<Pojo>() {
             @Override
             public int getRowCount() {
-                return new Long(readDataCount()).intValue();
+                return Long.valueOf(readDataCount()).intValue();
             }
 
 

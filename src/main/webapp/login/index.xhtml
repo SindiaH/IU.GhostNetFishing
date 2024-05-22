@@ -8,7 +8,7 @@
     <ui:define name="title">Login</ui:define>
 
     <ui:define name="content">
-        <div class="login">
+        <div class="login card">
             <h2>Login</h2>
             <h:form>
                 <h:panelGrid columns="2">
@@ -16,14 +16,14 @@
                     <h:inputText id="username" value="#{loginController.username}" required="true" />
                     <h:outputLabel for="password" value="Passwort" />
                     <h:inputSecret id="password" value="#{loginController.password}" required="true" />
-                    <h:commandButton id="submit-button" value="Login" action="#{loginController.login()}" ajax="false" />
                     <p/>
+                    <h:commandButton styleClass="main-button" value="Login" action="#{loginController.login()}" ajax="false" />
                     <h:messages errorClass="error"/>
                 </h:panelGrid>
             </h:form>
-            <div>
+            <div class="center">
                 <p>Du hast noch keinen Account?</p>
-                <a href="/register">-> Zur Registrierung</a>
+                <a href="/register">➡ Zur Registrierung</a>
             </div>
         </div>
     </ui:define>

@@ -8,7 +8,7 @@
     <ui:define name="title">Register</ui:define>
 
     <ui:define name="content">
-        <div class="register">
+        <div class="register card">
             <h2>Registrieren</h2>
             <h:form>
                 
@@ -32,19 +32,15 @@
                     <h:outputLabel for="confirmPassword" value="Passwort wiederholen"  />
                     <h:inputSecret id="confirmPassword" validator="#{registerController.validatePassword}" value="#{registerController.confirmPassword}" />
 
-                    
-                    <h:commandButton id="submit-button" value="Registrieren" action="#{registerController.register()}" ajax="false" />
                     <p/>
+                    <h:commandButton styleClass="main-button" value="Registrieren" action="#{registerController.register()}" ajax="false" />
                     <h:messages errorClass="error"/>
                     
                 </h:panelGrid>
             </h:form>
-            <div>
-                <h:outputLabel value="#{registerController.message != null ? registerController.message.info : 'no message'}"/>
-            </div>
-            <div>
+            <div class="center">
                 <p>Du hast noch schon einen Account?</p>
-                <a href="/login">-> Zum Login</a>
+                <a href="/login">➡ Zum Login</a>
             </div>
         </div>
     </ui:define>

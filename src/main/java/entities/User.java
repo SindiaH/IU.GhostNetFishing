@@ -2,15 +2,24 @@ package entities;
 
 import com.services.PasswordHasher;
 
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+@Entity
 public class User {
     @Id
     @GeneratedValue
     private int id;
     
     public User() {}
+
+    public User(String name, String username, String password, String telephone) {
+        this.Name = name;
+        this.Username = username;
+        this.setPassword(password);
+        this.Telephone = telephone;
+    }
     
     public String Name;
     public String Username;

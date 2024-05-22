@@ -14,6 +14,7 @@ import javax.persistence.Query;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import jakarta.inject.Named;
 
 /**
  * Simple storage DAO which will use the environment found JPA's EntityManager
@@ -29,7 +30,7 @@ import java.util.Map;
 @ManagedBean
 public class DataStore {
     public static void main(String[] args) {
-        DataStore app = new DataStore();
+        com.services.DataStore app = new com.services.DataStore();
     }
 
     public DataStore() {

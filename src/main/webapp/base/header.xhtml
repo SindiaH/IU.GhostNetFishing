@@ -4,5 +4,8 @@
         <a class="#{navigationBean.isCurrentlyActive('report') ? 'active' : ''}" href="/report">Netz melden</a>
         <a class="#{navigationBean.isCurrentlyActive('overview') ? 'active' : ''}" href="/overview">Netzübersicht</a>
     </div>
-    <a class="#{navigationBean.isCurrentlyActive('login') ? 'active' : ''}" href="/login">Login</a>
+    <div>
+        <h:outputText value="Hi #{userService.loggedInName}!" />
+        <a class="#{navigationBean.isCurrentlyActive('login') ? 'active' : ''}" href="/login">Login</a>
+    </div>
 </div>

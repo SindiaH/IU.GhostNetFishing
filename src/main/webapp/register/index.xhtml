@@ -8,7 +8,45 @@
     <ui:define name="title">Register</ui:define>
 
     <ui:define name="content">
-        Here should be a page for register
+        <div class="register">
+            <h2>Registrieren</h2>
+            <h:form>
+                
+                <h:panelGrid columns="2">
+                    <h:outputLabel for="username" value="Benutzername" />
+                    <h:inputText id="username" value="#{registerController.username}" 
+                                 required="true" requiredMessage="Der Benutzername ist ein Pflichtfeld" />
+                    
+                    <h:outputLabel for="name" value="Name" />
+                    <h:inputText id="name" value="#{registerController.name}" required="true"
+                                 requiredMessage="Der Name ist ein Pflichtfeld"/>
+                    
+                    <h:outputLabel for="telephone" value="Telefonnummer"  />
+                    <h:inputText id="telephone" value="#{registerController.telephone}"
+                                 required="true" requiredMessage="Die Telefonnummer ist ein Pflichtfeld" >
+                    </h:inputText>
+                    
+                    <h:outputLabel for="password" value="Passwort" />
+                    <h:inputSecret id="password" value="#{registerController.password}" required="true" requiredMessage="Das Passwort ist ein Pflichtfeld" />
+                    
+                    <h:outputLabel for="confirmPassword" value="Passwort wiederholen"  />
+                    <h:inputSecret id="confirmPassword" validator="#{registerController.validatePassword}" value="#{registerController.confirmPassword}" />
+
+                    
+                    <h:commandButton id="submit-button" value="Registrieren" action="#{registerController.register()}" ajax="false" />
+                    <p/>
+                    <h:messages errorClass="error"/>
+                    
+                </h:panelGrid>
+            </h:form>
+            <div>
+                <h:outputLabel value="#{registerController.message != null ? registerController.message.info : 'no message'}"/>
+            </div>
+            <div>
+                <p>Du hast noch schon einen Account?</p>
+                <a href="/login">-> Zum Login</a>
+            </div>
+        </div>
     </ui:define>
 </ui:composition>
 

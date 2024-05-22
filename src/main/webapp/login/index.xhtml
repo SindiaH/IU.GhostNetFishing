@@ -8,7 +8,24 @@
     <ui:define name="title">Login</ui:define>
 
     <ui:define name="content">
-        Here should be a login mask.
+        <div class="login">
+            <h2>Login</h2>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel for="username" value="Benutzername" />
+                    <h:inputText id="username" value="#{loginController.username}" required="true" />
+                    <h:outputLabel for="password" value="Passwort" />
+                    <h:inputSecret id="password" value="#{loginController.password}" required="true" />
+                    <h:commandButton id="submit-button" value="Login" action="#{loginController.login()}" ajax="false" />
+                    <p/>
+                    <h:messages errorClass="error"/>
+                </h:panelGrid>
+            </h:form>
+            <div>
+                <p>Du hast noch keinen Account?</p>
+                <a href="/register">-> Zur Registrierung</a>
+            </div>
+        </div>
     </ui:define>
 </ui:composition>
 

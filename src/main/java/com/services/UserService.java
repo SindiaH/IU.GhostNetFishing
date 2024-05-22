@@ -5,10 +5,12 @@ import entities.User;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
+import javax.faces.context.FacesContext;
 import javax.persistence.Query;
 import java.util.List;
 
@@ -60,11 +62,50 @@ public class UserService {
         this.loggedInTelephone = loggedInTelephone;
     }
     
+    private boolean isLoggedIn;
+    public boolean getIsLoggedIn() {
+        return !Validator.isNullOrEmpty(this.loggedInName);
+    }
+    public void setIsLoggedIn(boolean isLoggedIn) {
+        this.isLoggedIn = isLoggedIn;
+    }
+    
     public void setLoggedInUser(User user) {
         System.out.println("Logged in: " + user.Username);
+        AuthCookieService.saveUserToCookie(user);
         this.setLoggedInUserName(user.Username);
         this.setLoggedInName(user.Name);
         this.setLoggedInTelephone(user.Telephone);
+    }
+    
+    public void login(String username, String password) {
+        try {
+            System.out.println("Trying to log in user " + username);
+            User user = this.readData(username);
+            if (user != null && user.isPasswordValid(password)) {
+                System.out.println("Settings user " + username);
+                this.setLoggedInUser(user);
+                FacesContext.getCurrentInstance().getExternalContext().redirect("/report");
+            } else if(user != null) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Username oder Passwort sind nicht valide", "Username oder Passwort sind nicht valide"));
+                System.out.println("Username oder Passwort sind nicht valide: " + username + " " + password + ", isvalid: " + user.isPasswordValid(password));
+            } else {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Es kann kein Benutzer mit diesem Namen gefunden werden", "Es kann kein Benutzer mit diesem Namen gefunden werden"));
+                System.out.println("Es kann kein Benutzer mit diesem Namen gefunden werden: " + username + " " + password);
+            }
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Es kann kein passender Benutzer gefunden werden", "Es kann kein passender Benutzer gefunden werden"));
+            System.out.println("Error while logging in: " + e);
+        }
+    }
+    
+    public String logout() {
+        System.out.println("Logged out: " + this.loggedInName);
+        AuthCookieService.deleteAuthCookie();
+        this.setLoggedInUserName(null);
+        this.setLoggedInName(null);
+        this.setLoggedInTelephone(null);
+        return "true";
     }
 
     public void addData(User user) {
@@ -124,6 +165,7 @@ public class UserService {
     }
 
     public User readData(String username) {
+//        System.out.println("Trying to read data for user " + username);
         String jpql = "SELECT p from User p WHERE p.Username = :username";
         Query query = dataStore.entityManager.createQuery(jpql);
         query.setParameter("username", username);

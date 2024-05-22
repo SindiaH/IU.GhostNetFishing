@@ -45,21 +45,6 @@ public class LoginController {
     }
 
     public void login() {
-        try {
-            System.out.println("Trying to log in user " + this.username);
-            User user = this.userService.readData(this.username);
-            if (user != null && user.isPasswordValid(this.password)) {
-                AuthCookieService.saveUserToCookie(user);
-                this.userService.setLoggedInUser(user);
-            } else if(user != null) {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Username oder Passwort sind nicht valide", "Username oder Passwort sind nicht valide"));
-                System.out.println("Username oder Passwort sind nicht valide: " + this.username + " " + this.password + ", isvalid: " + user.isPasswordValid(this.password));
-            } else {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Es kann kein Benutzer mit diesem Namen gefunden werden", "Es kann kein Benutzer mit diesem Namen gefunden werden"));
-                System.out.println("Es kann kein Benutzer mit diesem Namen gefunden werden: " + this.username + " " + this.password);
-            }
-        } catch (Exception e) {
-            System.out.println("Error while logging in: " + e);
-        }
+        this.userService.login(this.username, this.password);
     }
 }

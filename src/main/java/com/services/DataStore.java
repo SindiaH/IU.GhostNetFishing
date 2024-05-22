@@ -29,10 +29,6 @@ import jakarta.inject.Named;
 @ApplicationScoped
 @ManagedBean
 public class DataStore {
-    public static void main(String[] args) {
-        com.services.DataStore app = new com.services.DataStore();
-    }
-
     public DataStore() {
         System.out.println("Starting app...");
 

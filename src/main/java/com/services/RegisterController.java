@@ -85,17 +85,9 @@ public class RegisterController {
     public void register() {
         try {
             System.out.println("Trying to create user " + this.username);
-            User newUser = new User(this.username, this.name, this.password, this.telephone);
+            User newUser = new User(this.name, this.username, this.password, this.telephone);
             this.userService.addData(newUser);
-            User user = this.userService.readData(newUser.Username, newUser.Password);
-            if (user != null) {
-                AuthCookieService.saveUserToCookie(user);
-                this.userService.setLoggedInUser(user);
-            } else {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Username oder Passwort sind nicht valide", "Username oder Passwort sind nicht valide"));
-                System.out.println("Username oder Passwort sind nicht valide: " + this.username + " " + this.password + ", isvalid: " + user.isPasswordValid(this.password));
-            }
-            setMessage(new MessageDto("Benutzer erfolgreich angelegt!", "Benutzer erfolgreich angelegt!", true));
+            this.userService.login(this.username, this.password);
         } catch (Exception e) {
             System.out.println("Error while creating user: " + e);
             setMessage(new MessageDto("Error", e.getMessage(), false));

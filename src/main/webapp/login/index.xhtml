@@ -10,16 +10,15 @@
     <ui:define name="content">
         <div class="login card">
             <h2>Login</h2>
-            <h:form>
-                <h:panelGrid columns="2">
+            <h:form styleClass="custom-form">
+                <div class="input-container">
                     <h:outputLabel for="username" value="Benutzername" />
                     <h:inputText id="username" value="#{loginController.username}" required="true" />
                     <h:outputLabel for="password" value="Passwort" />
                     <h:inputSecret id="password" value="#{loginController.password}" required="true" />
-                    <p/>
-                    <h:commandButton styleClass="main-button" value="Login" action="#{loginController.login()}" ajax="false" />
-                    <h:messages errorClass="error"/>
-                </h:panelGrid>
+                </div>
+                <h:commandButton styleClass="main-button" value="Login" action="#{loginController.login()}" ajax="false" />
+                <h:messages errorClass="error"/>
             </h:form>
             <div class="center">
                 <p>Du hast noch keinen Account?</p>

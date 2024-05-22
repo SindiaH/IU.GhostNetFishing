@@ -1,14 +1,10 @@
-package com.services;
+package com.controllers;
 
-import dtos.MessageDto;
-import entities.User;
+import com.services.UserService;
 
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
 
 @ManagedBean
 @ViewScoped

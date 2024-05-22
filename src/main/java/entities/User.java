@@ -39,4 +39,8 @@ public class User {
     public boolean isPasswordValid(String password) {
         return PasswordHasher.verifyPassword(password, this.Password);
     }
+    
+    public int getId() {
+        return id;
+    }
 }

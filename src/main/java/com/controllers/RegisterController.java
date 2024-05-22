@@ -1,5 +1,8 @@
-package com.services;
+package com.controllers;
 
+import com.services.MessageHelper;
+import com.services.UserService;
+import com.services.Validator;
 import dtos.MessageDto;
 import entities.User;
 
@@ -27,12 +30,11 @@ public class RegisterController {
         this.userService = userService;
     }
 
-    private String username = "test";
-    private String name = "aki";
+    private String username;
+    private String name;
     private String password;
     private String confirmPassword;
-    private String telephone = "1234";
-    private MessageDto message;
+    private String telephone;
 
     public String getUsername() {
         return username;
@@ -74,14 +76,6 @@ public class RegisterController {
         this.telephone = telephone;
     }
 
-    public MessageDto getMessage() {
-        return message;
-    }
-
-    public void setMessage(MessageDto message) {
-        this.message = message;
-    }
-
     public void register() {
         try {
             System.out.println("Trying to create user " + this.username);
@@ -89,23 +83,15 @@ public class RegisterController {
             this.userService.addData(newUser);
             this.userService.login(this.username, this.password);
         } catch (Exception e) {
-            System.out.println("Error while creating user: " + e);
-            setMessage(new MessageDto("Error", e.getMessage(), false));
+            MessageHelper.addErrorMessage("Beim Anlegen des Benutzers ist ein Fehler aufgetreten:" + e.getMessage());
         }
     }
 
     public void validatePassword(FacesContext context, UIComponent component, Object value) {
-        setMessage(new MessageDto("Info", "Validating pw!", true));
         if (Validator.isNullOrEmpty(this.password) || Validator.isNullOrEmpty(this.confirmPassword)) {
-            setMessage(new MessageDto("Das Passwort ist ein Pflichtfeld", "Validating pw!", true));
-            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                    "Das Passwort ist ein Pflichtfeld", "Das Passwort ist ein Pflichtfeld");
-            context.addMessage(component.getClientId(context), message);
+            MessageHelper.addErrorMessage("Das Passwort ist ein Pflichtfeld", context, component);
         } else if (!this.password.equals(this.confirmPassword)) {
-            setMessage(new MessageDto("Die Passwörter stimmen nicht überein!", "Validating pw!", true));
-            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                    "Die Passwörter stimmen nicht überein!", "Die Passwörter stimmen nicht überein!");
-            context.addMessage(component.getClientId(context), message);
+            MessageHelper.addErrorMessage("Die Passwörter stimmen nicht überein!", context, component);
         }
     }
 

@@ -10,33 +10,29 @@
     <ui:define name="content">
         <div class="register card">
             <h2>Registrieren</h2>
-            <h:form>
-                
-                <h:panelGrid columns="2">
+            <h:form styleClass="custom-form">
+                <div class="input-container">
                     <h:outputLabel for="username" value="Benutzername" />
-                    <h:inputText id="username" value="#{registerController.username}" 
+                    <h:inputText id="username" value="#{registerController.username}"
                                  required="true" requiredMessage="Der Benutzername ist ein Pflichtfeld" />
-                    
+
                     <h:outputLabel for="name" value="Name" />
                     <h:inputText id="name" value="#{registerController.name}" required="true"
                                  requiredMessage="Der Name ist ein Pflichtfeld"/>
-                    
+
                     <h:outputLabel for="telephone" value="Telefonnummer"  />
                     <h:inputText id="telephone" value="#{registerController.telephone}"
                                  required="true" requiredMessage="Die Telefonnummer ist ein Pflichtfeld" >
                     </h:inputText>
-                    
+
                     <h:outputLabel for="password" value="Passwort" />
                     <h:inputSecret id="password" value="#{registerController.password}" required="true" requiredMessage="Das Passwort ist ein Pflichtfeld" />
-                    
+
                     <h:outputLabel for="confirmPassword" value="Passwort wiederholen"  />
                     <h:inputSecret id="confirmPassword" validator="#{registerController.validatePassword}" value="#{registerController.confirmPassword}" />
-
-                    <p/>
-                    <h:commandButton styleClass="main-button" value="Registrieren" action="#{registerController.register()}" ajax="false" />
-                    <h:messages errorClass="error"/>
-                    
-                </h:panelGrid>
+                </div>
+                <h:commandButton styleClass="main-button" value="Registrieren" action="#{registerController.register()}" ajax="false" />
+                <h:messages errorClass="error"/>
             </h:form>
             <div class="center">
                 <p>Du hast noch schon einen Account?</p>

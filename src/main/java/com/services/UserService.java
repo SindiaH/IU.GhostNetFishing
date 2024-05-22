@@ -21,7 +21,7 @@ import java.util.List;
 @Named("userService")
 public class UserService {
     EntityManager entityManager;
-    
+
     public UserService() {
         EntityManagerFactory factory = Persistence.createEntityManagerFactory("ghost-net-app");
         entityManager = factory.createEntityManager();
@@ -35,6 +35,8 @@ public class UserService {
     private boolean isCookieValid(AuthCookieDto user) {
         return user != null && user.validUntil.isAfter(LocalDateTime.now());
     }
+
+    public User LoggedInUser;
 
     private String loggedInUserName;
 
@@ -82,6 +84,7 @@ public class UserService {
         this.setLoggedInUserName(user.Username);
         this.setLoggedInName(user.Name);
         this.setLoggedInTelephone(user.Telephone);
+        this.LoggedInUser = user;
     }
 
     public void login(String username, String password) {
@@ -93,15 +96,12 @@ public class UserService {
                 this.setLoggedInUser(user);
                 FacesContext.getCurrentInstance().getExternalContext().redirect("/report");
             } else if (user != null) {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Username oder Passwort sind nicht valide", "Username oder Passwort sind nicht valide"));
-                System.out.println("Username oder Passwort sind nicht valide: " + username + " " + password + ", isvalid: " + user.isPasswordValid(password));
+                MessageHelper.addErrorMessage("Username oder Passwort sind nicht valide");
             } else {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Es kann kein Benutzer mit diesem Namen gefunden werden", "Es kann kein Benutzer mit diesem Namen gefunden werden"));
-                System.out.println("Es kann kein Benutzer mit diesem Namen gefunden werden: " + username + " " + password);
+                MessageHelper.addErrorMessage("Es kann kein Benutzer mit diesem Namen gefunden werden: " + username);
             }
         } catch (Exception e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Es kann kein passender Benutzer gefunden werden", "Es kann kein passender Benutzer gefunden werden"));
-            System.out.println("Error while logging in: " + e);
+            MessageHelper.addErrorMessage("Beim Login ist ein Fehler aufgetreten: " + e);
         }
     }
 
@@ -111,6 +111,7 @@ public class UserService {
         this.setLoggedInUserName(null);
         this.setLoggedInName(null);
         this.setLoggedInTelephone(null);
+        this.LoggedInUser = null;
         return "true";
     }
 

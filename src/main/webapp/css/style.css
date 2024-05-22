@@ -2,6 +2,8 @@
     box-sizing: border-box;
     --bg-1: #f1f1f1;
     --bg-2: #eaeaea;
+    
+    --primary-color: #AB9DF4;
 }
 
 body {
@@ -13,12 +15,11 @@ a {
     text-decoration: none;
 }
 
-input.main-button {
+input.main-button, input.secondary-button {
     cursor: pointer;
     border: 1px solid grey;
     padding: 8px 16px;
     border-radius: 4px;
-    background-color: var(--bg-1);
     font-size: 16px;
     font-weight: bold;
     transition: all 1s;
@@ -26,6 +27,15 @@ input.main-button {
     &:hover, &:active, &:focus {
         box-shadow: 2px 2px 2px 2px #888888;
     }
+}
+
+input.main-button {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+input.secondary-button {
+    background-color: var(--bg-1);
 }
 
 .grid-container {
@@ -105,7 +115,11 @@ input.main-button {
     border-radius: 12px;
     margin-bottom: auto;
     padding: 32px 12px;
-    
+    h2 {
+        color: var(--primary-color);
+        font-weight: 500;
+        font-size: 32px;
+    }
 }
 
 input[type='text'], input[type='password'] {
@@ -116,4 +130,21 @@ input[type='text'], input[type='password'] {
     display: flex;
     align-items: center;
     column-gap: 8px;
+}
+
+.custom-form {
+    display: flex;
+    flex-direction: column;
+    min-width: 400px;
+    .input-container {
+        display: flex;
+        flex-direction: column;
+        input {
+            margin-bottom: 12px;
+        }
+    }
+    input[type='submit'] {
+        margin-top: 24px;
+        margin-bottom: 12px;
+    }
 }

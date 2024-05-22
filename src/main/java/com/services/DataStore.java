@@ -3,6 +3,7 @@ package com.services;
 import entities.Pojo;
 import org.primefaces.model.FilterMeta;
 import org.primefaces.model.LazyDataModel;
+import org.primefaces.model.SortMeta;
 import org.primefaces.model.SortOrder;
 
 import javax.faces.bean.ApplicationScoped;
@@ -109,22 +110,37 @@ public class DataStore {
     public LazyDataModel<Pojo> readDataLazyModel() {
         return new LazyDataModel<Pojo>() {
             @Override
-            public int getRowCount() {
+            public int count(Map<String, FilterMeta> map) {
                 return Long.valueOf(readDataCount()).intValue();
             }
 
-
-
             @Override
-            public List<Pojo> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, FilterMeta> filterBy) {
+            public List<Pojo> load(int first, int pageSize, Map<String, SortMeta> map, Map<String, FilterMeta> map1) {
                 String jpql = "SELECT p from Pojo p";
                 Query query = entityManager.createQuery(jpql);
                 query.setFirstResult(first).setMaxResults(pageSize);
                 List<Pojo> result = (List<Pojo>) query.getResultList();
                 // currently ignoring sort-fields and filter
                 return result;
-
             }
+
+            @Override
+            public int getRowCount() {
+                return Long.valueOf(readDataCount()).intValue();
+            }
+
+
+
+//            @Override
+//            public List<Pojo> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, FilterMeta> filterBy) {
+//                String jpql = "SELECT p from Pojo p";
+//                Query query = entityManager.createQuery(jpql);
+//                query.setFirstResult(first).setMaxResults(pageSize);
+//                List<Pojo> result = (List<Pojo>) query.getResultList();
+//                // currently ignoring sort-fields and filter
+//                return result;
+//
+//            }
         };
     }
 

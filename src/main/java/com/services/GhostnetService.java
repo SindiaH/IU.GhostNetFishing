@@ -6,6 +6,7 @@ import entities.Pojo;
 import entities.User;
 import jakarta.inject.Named;
 import org.primefaces.model.FilterMeta;
+import org.primefaces.model.SortMeta;
 import org.primefaces.model.SortOrder;
 
 import javax.faces.bean.ApplicationScoped;
@@ -56,7 +57,7 @@ public class GhostnetService {
         return query.getResultStream().count();
     }
     
-    public List<Ghostnet> lazyRead(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, FilterMeta> filterBy) {
+    public List<Ghostnet> lazyRead(int first, int pageSize, Map<String, SortMeta> sortInfo, Map<String, FilterMeta> filterBy) {
         String jpql = "SELECT p from Ghostnet p";
         Query query = entityManager.createQuery(jpql);
         query.setFirstResult(first).setMaxResults(pageSize);

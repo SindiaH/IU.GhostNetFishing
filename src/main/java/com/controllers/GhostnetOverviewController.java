@@ -6,6 +6,7 @@ import entities.Ghostnet;
 import entities.Pojo;
 import org.primefaces.model.FilterMeta;
 import org.primefaces.model.LazyDataModel;
+import org.primefaces.model.SortMeta;
 import org.primefaces.model.SortOrder;
 
 import javax.faces.bean.ManagedBean;
@@ -45,14 +46,24 @@ public class GhostnetOverviewController {
     public LazyDataModel<Ghostnet> readDataLazyModel() {
         return new LazyDataModel<Ghostnet>() {
             @Override
-            public int getRowCount() {
+            public int count(Map<String, FilterMeta> map) {
                 return Long.valueOf(ghostnetService.readDataCount()).intValue();
             }
 
             @Override
-            public List<Ghostnet> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, FilterMeta> filterBy) {
-                return ghostnetService.lazyRead(first, pageSize, sortField, sortOrder, filterBy);
+            public List<Ghostnet> load(int first, int pageSize, Map<String, SortMeta> sortInfo, Map<String, FilterMeta> filterBy) {
+                return ghostnetService.lazyRead(first, pageSize, sortInfo, filterBy);
             }
+
+//            @Override
+//            public int getRowCount() {
+//                return Long.valueOf(ghostnetService.readDataCount()).intValue();
+//            }
+
+//            @Override
+//            public List<Ghostnet> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, FilterMeta> filterBy) {
+//                return ghostnetService.lazyRead(first, pageSize, sortField, sortOrder, filterBy);
+//            }
         };
     }
 }

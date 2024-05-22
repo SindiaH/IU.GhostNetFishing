@@ -5,25 +5,29 @@
             <c:choose>
                 <c:when test="#{(!userService.isLoggedIn)}">
                     <h:outputLabel for="reporter" value="Name des Melders"/>
-                    <h:inputText id="reporter" value="#{reportGhostnetController.reporterName}" required="true"/>
+                    <h:inputText styleClass="ui-inputfield" id="reporter" value="#{reportGhostnetController.reporterName}" 
+                                 required="true" requiredMessage="Der Reporter ist ein Pflichtfeld"/>
                 </c:when>
                 <c:otherwise>
                     <h:outputLabel for="reporter2" value="Name des Melders"/>
-                    <h:inputText id="reporter2" value="#{userService.loggedInName}" disabled="true" required="true"/>
+                    <h:inputText styleClass="ui-inputfield" id="reporter2" value="#{userService.loggedInName}" disabled="true" required="true"/>
                 </c:otherwise>
             </c:choose>
             
 <!--            TODO: Validierung für Längen & Breitengrad-->
 
             <h:outputLabel for="latitude" value="Breitengrad"/>
-            <h:inputText id="latitude" value="#{reportGhostnetController.latitude}" required="true"/>
+            <h:inputText styleClass="ui-inputfield" id="latitude" value="#{reportGhostnetController.latitude}" 
+                         required="true" requiredMessage="Der Breitengrad ist ein Pflichtfeld"/>
             <h:outputLabel for="longitude" value="Längengrad"/>
-            <h:inputText id="longitude" value="#{reportGhostnetController.longitude}" required="true"/>
+            <h:inputText styleClass="ui-inputfield" id="longitude" value="#{reportGhostnetController.longitude}" 
+                         required="true" requiredMessage="Der Längengrad ist ein Pflichtfeld"/>
             <h:outputLabel for="size" value="Geschätzte Größe des Netzes in Metern"/>
-            <h:inputText id="size" value="#{reportGhostnetController.size}" required="true"/>
+            <h:inputText styleClass="ui-inputfield" id="size" value="#{reportGhostnetController.size}" 
+                         required="true" requiredMessage="Die Größe ist ein Pflichtfeld"/>
         </div>
 
-        <h:commandButton styleClass="main-button"
+        <h:commandButton styleClass="ui-button ui-button-outlined"
                          value="Geisternetz melden"
                          action="#{reportGhostnetController.reportGhostnet()}"
                          ajax="false"/>

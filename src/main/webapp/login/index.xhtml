@@ -13,11 +13,13 @@
             <h:form styleClass="custom-form">
                 <div class="input-container">
                     <h:outputLabel for="username" value="Benutzername" />
-                    <h:inputText id="username" value="#{loginController.username}" required="true" />
+                    <h:inputText styleClass="ui-inputfield" id="username" value="#{loginController.username}" 
+                                 required="true" requiredMessage="Der Username ist ein Pflichtfeld." />
                     <h:outputLabel for="password" value="Passwort" />
-                    <h:inputSecret id="password" value="#{loginController.password}" required="true" />
+                    <h:inputSecret styleClass="ui-inputfield" id="password" value="#{loginController.password}" 
+                                   required="true" requiredMessage="Das Passwort ist ein Pflichtfeld." />
                 </div>
-                <h:commandButton styleClass="main-button" value="Login" action="#{loginController.login()}" ajax="false" />
+                <h:commandButton styleClass="ui-button ui-button-outlined" value="Login" action="#{loginController.login()}" ajax="false" />
                 <h:messages errorClass="error"/>
             </h:form>
             <div class="center">

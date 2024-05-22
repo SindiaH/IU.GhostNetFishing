@@ -9,34 +9,35 @@
     <ui:define name="title">GhostNetFishing</ui:define>
 
     <ui:define name="content">
-        <p:dataTable var="ghostnet" value="#{ghostnetOverviewController.lazyModel}" paginator="true" rows="10"
-                     paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
-                     rowsPerPageTemplate="5,10,100" id="pojoTable" lazy="true">
-            <p:column headerText="Status">
-                <h:outputText value="#{ghostnet.status}" />
-            </p:column>
-            <p:column headerText="Meldende Person">
-                <h:outputText value="#{ghostnet.reporterName}"/>
-            </p:column>
-            <p:column headerText="gesch. Größe">
-                <h:outputText value="#{ghostnet.size}"/>
-            </p:column>
-            <p:column headerText="Breitengrad">
-                <h:outputText value="#{ghostnet.latitude}"/>
-            </p:column>
-            <p:column headerText="Längengrad">
-                <h:outputText value="#{ghostnet.longitude}"/>
-            </p:column>
-            <p:column headerText="Bergende Person">
-                <h:outputText value="#{ghostnet.reporterName}"/>
-            </p:column>
-            <p:column headerText="Bergende Person Telefonnummer">
-                <h:outputText value="#{ghostnet.reporterName}"/>
-            </p:column>
-            <p:column headerText="">
-                <h:outputText value="Status updaten"/>
-            </p:column>
-        </p:dataTable>
+        <div class="card ui-fluit">
+            <p:dataTable var="ghostnet" value="#{ghostnetOverviewController.lazyModel}" paginator="true" rows="10"
+                         rowsPerPageTemplate="5,10,100" id="pojoTable" lazy="true">
+                <p:column headerText="Status">
+                    <h:outputText value="#{ghostnet.status}" />
+                </p:column>
+                <p:column headerText="Meldende Person">
+                    <h:outputText value="#{ghostnet.reporterName}"/>
+                </p:column>
+                <p:column headerText="gesch. Größe">
+                    <h:outputText value="#{ghostnet.size}"/>
+                </p:column>
+                <p:column headerText="Breitengrad">
+                    <h:outputText value="#{ghostnet.latitude}"/>
+                </p:column>
+                <p:column headerText="Längengrad">
+                    <h:outputText value="#{ghostnet.longitude}"/>
+                </p:column>
+                <p:column headerText="Bergende Person">
+                    <h:outputText value="#{ghostnet.reporterName}"/>
+                </p:column>
+                <p:column headerText="Bergende Person Telefonnummer">
+                    <h:outputText value="#{ghostnet.reporterName}"/>
+                </p:column>
+                <p:column headerText="">
+                    <h:outputText value="Status updaten"/>
+                </p:column>
+            </p:dataTable>
+        </div>
     </ui:define>
 </ui:composition>
 

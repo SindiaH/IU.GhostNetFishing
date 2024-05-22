@@ -14,10 +14,16 @@ public class User {
     
     public User() {}
 
-    public User(String name, String username, String password, String telephone) {
+    public User(String name, String username, String telephone, String password) {
         this.Name = name;
         this.Username = username;
         this.setPassword(password);
+        this.Telephone = telephone;
+    }
+
+    public User(String name, String username, String telephone) {
+        this.Name = name;
+        this.Username = username;
         this.Telephone = telephone;
     }
     

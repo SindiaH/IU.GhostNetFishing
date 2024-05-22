@@ -85,7 +85,7 @@ public class RegisterController {
     public void register() {
         try {
             System.out.println("Trying to create user " + this.username);
-            User newUser = new User(this.name, this.username, this.password, this.telephone);
+            User newUser = new User(this.name, this.username, this.telephone, this.password);
             this.userService.addData(newUser);
             this.userService.login(this.username, this.password);
         } catch (Exception e) {

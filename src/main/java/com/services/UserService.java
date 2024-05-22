@@ -1,21 +1,20 @@
 package com.services;
 
+import dtos.AuthCookieDto;
 import entities.Ghostnet;
 import entities.User;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ApplicationScoped;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.RequestScoped;
+import javax.faces.bean.*;
 import javax.faces.context.FacesContext;
 import javax.persistence.Query;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @ManagedBean
-@ApplicationScoped
+@SessionScoped
 @Named("userService")
 public class UserService {
     //    @Inject @Named("dataStore") private DataStore dataStore;
@@ -32,10 +31,14 @@ public class UserService {
     
     public UserService() {
         System.out.println("Starting UserService...");
-        User user = AuthCookieService.getUserFromCookie();
-        if(user != null) {
-            setLoggedInUser(user);
+        AuthCookieDto user = AuthCookieService.getUserFromCookie();
+        if(isCookieValid(user)) {
+            setLoggedInUser(new User( user.name, user.username, user.telephone));
         }
+    }
+    
+    private boolean isCookieValid(AuthCookieDto user) {
+        return user!= null && user.validUntil.isAfter(LocalDateTime.now());
     }
 
     private String loggedInUserName;

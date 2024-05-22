@@ -1,7 +1,9 @@
 package com.services;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.sun.org.apache.bcel.internal.Const;
+import dtos.AuthCookieDto;
 import entities.User;
 
 import javax.faces.bean.ManagedBean;
@@ -10,6 +12,8 @@ import javax.faces.context.FacesContext;
 import javax.servlet.http.Cookie;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,18 +33,27 @@ public class AuthCookieService {
         properties.put("maxAge", AuthCookieService.MAX_AGE);
         properties.put("path", "/");
 
-        FacesContext.getCurrentInstance().getExternalContext().addResponseCookie(AuthCookieService.AUTH_COOKIE_NAME, jsonify(user), properties);
+        FacesContext.getCurrentInstance().getExternalContext()
+                .addResponseCookie(AuthCookieService.AUTH_COOKIE_NAME, CryptHelper.encrypt(jsonify(user)), properties);
     }
 
-    public static User getUserFromCookie() {
+    public static AuthCookieDto getUserFromCookie() {
         Cookie cookie = (Cookie) FacesContext.getCurrentInstance().getExternalContext().getRequestCookieMap().get(AuthCookieService.AUTH_COOKIE_NAME);
         if (cookie == null) {
             return null;
         }
-        User user = objectify(cookie.getValue());
+        
+        String decryptedValue = CryptHelper.decrypt(cookie.getValue());
+        System.out.println(decryptedValue);
+        if(Validator.isNullOrEmpty(decryptedValue)) {
+            return null;
+        }
+
+        AuthCookieDto user = objectify(decryptedValue);
         if (user == null) {
             return null;
         }
+        
         System.out.println(user);
         return user;
     }
@@ -58,18 +71,19 @@ public class AuthCookieService {
 
     private static String jsonify(User user) {
         try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            user.Password = "";
-            return objectMapper.writeValueAsString(user);
+            ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
+            LocalDateTime expirationTime = LocalDateTime.now().plusHours(4);
+            AuthCookieDto dto = new AuthCookieDto(expirationTime, user.Username, user.Name, user.Telephone);
+            return objectMapper.writeValueAsString(dto);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
     }
 
-    private static User objectify(String user) {
+    private static AuthCookieDto objectify(String user) {
         try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            return objectMapper.readValue(user, User.class);
+            ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
+            return objectMapper.readValue(user, AuthCookieDto.class);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }

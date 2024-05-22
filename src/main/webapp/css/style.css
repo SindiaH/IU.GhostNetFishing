@@ -12,6 +12,21 @@ a {
     text-decoration: none;
 }
 
+input.main-button {
+    cursor: pointer;
+    border: 1px solid grey;
+    padding: 8px 16px;
+    border-radius: 4px;
+    background-color: var(--bg-1);
+    font-size: 16px;
+    font-weight: bold;
+    transition: all 1s;
+    box-shadow: 2px 2px 2px 2px #eaeaea;
+    &:hover, &:active, &:focus {
+        box-shadow: 2px 2px 2px 2px #888888;
+    }
+}
+
 .grid-container {
     height: 100vh;
     display: grid;
@@ -49,6 +64,13 @@ a {
             color: black;
             text-decoration: underline;
         }
+    }
+    p {
+        font-size: 20px;
+        margin: auto 16px;
+    }
+    form {
+        display: flex;
     }
 }
 

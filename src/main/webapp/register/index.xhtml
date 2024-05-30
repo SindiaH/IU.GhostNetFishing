@@ -19,20 +19,21 @@
                     <h:outputLabel for="name" value="Name" />
                     <h:inputText styleClass="ui-inputfield" id="name" value="#{registerController.name}" required="true"
                                  requiredMessage="Der Name ist ein Pflichtfeld"/>
-
                     <h:outputLabel for="telephone" value="Telefonnummer"  />
                     <h:inputText styleClass="ui-inputfield" id="telephone" value="#{registerController.telephone}"
-                                 required="true" requiredMessage="Die Telefonnummer ist ein Pflichtfeld" >
+                                 validator="#{registerController.validateTelephone}" >
                     </h:inputText>
-
                     <h:outputLabel for="password" value="Passwort" />
-                    <h:inputSecret styleClass="ui-inputfield" id="password" value="#{registerController.password}" required="true" requiredMessage="Das Passwort ist ein Pflichtfeld" />
-
+                    <h:inputSecret styleClass="ui-inputfield" id="password" value="#{registerController.password}" 
+                                   required="true" requiredMessage="Msg2: Das Passwort ist ein Pflichtfeld" />
                     <h:outputLabel for="confirmPassword" value="Passwort wiederholen"  />
-                    <h:inputSecret styleClass="ui-inputfield" id="confirmPassword" validator="#{registerController.validatePassword}" value="#{registerController.confirmPassword}" />
+                    <h:inputSecret styleClass="ui-inputfield" id="confirmPassword" 
+                                   validator="#{registerController.validatePasswordCorrect}" 
+                                   value="#{registerController.confirmPassword}" />
                 </div>
-                <h:commandButton styleClass="ui-button ui-button-outlined" value="Registrieren" action="#{registerController.register()}" ajax="false" />
-                <h:messages errorClass="error"/>
+                <h:commandButton styleClass="ui-button ui-button-outlined"
+                                 value="Registrieren" type="submit"
+                                 action="#{registerController.register()}" ajax="false" />
             </h:form>
             <div class="center">
                 <p>Du hast noch schon einen Account?</p>

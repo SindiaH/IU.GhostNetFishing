@@ -1,12 +1,9 @@
 package com.services;
 
 import dtos.AuthCookieDto;
-import entities.Ghostnet;
 import entities.User;
-import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.*;
 import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
@@ -96,12 +93,12 @@ public class UserService {
                 this.setLoggedInUser(user);
                 FacesContext.getCurrentInstance().getExternalContext().redirect("/report");
             } else if (user != null) {
-                MessageHelper.addErrorMessage("Username oder Passwort sind nicht valide");
+                MessageHelper.throwErrorMessage("Username oder Passwort sind nicht valide");
             } else {
-                MessageHelper.addErrorMessage("Es kann kein Benutzer mit diesem Namen gefunden werden: " + username);
+                MessageHelper.throwErrorMessage("Es kann kein Benutzer mit diesem Namen gefunden werden: " + username);
             }
         } catch (Exception e) {
-            MessageHelper.addErrorMessage("Beim Login ist ein Fehler aufgetreten: " + e);
+            MessageHelper.throwErrorMessage("Beim Login ist ein Fehler aufgetreten: " + e);
         }
     }
 
@@ -116,9 +113,14 @@ public class UserService {
     }
 
     public void addData(User user) {
-        if (!validateUser(user) && !userExists(user)) {
-            return; // TODO: Add error message
+        if (!validateUser(user)) {
+            return;
         }
+        if(userExists(user)) {
+            MessageHelper.addErrorMessage("Fehler", "Ein Benutzer mit diesem Usernamen existiert bereits");
+            return;
+        }
+        
         this.entityManager.getTransaction().begin();
         this.entityManager.persist(user);
         this.entityManager.getTransaction().commit();
@@ -126,7 +128,7 @@ public class UserService {
 
     public void updateData(User user) {
         if (!validateUser(user)) {
-            return; // TODO: Add error message
+            return;
         }
         this.entityManager.getTransaction().begin();
         this.entityManager.merge(user);
@@ -135,15 +137,19 @@ public class UserService {
 
     private boolean validateUser(User user) {
         if (user.Name == null || user.Name.isEmpty()) {
+            MessageHelper.addErrorMessage("Fehler", "Der Name des Benutzers ist ein Pflichtfeld");
             return false;
         }
         if (user.Username == null || user.Username.isEmpty()) {
+            MessageHelper.addErrorMessage("Fehler", "Der Username des Benutzers ist ein Pflichtfeld");
             return false;
         }
         if (user.Password == null || user.Password.isEmpty()) {
+            MessageHelper.addErrorMessage("Fehler", "Das Passwort des Benutzers ist ein Pflichtfeld");
             return false;
         }
         if (user.Telephone == null || user.Telephone.isEmpty()) {
+            MessageHelper.addErrorMessage("Fehler", "Die Telefonnummer des Benutzers ist ein Pflichtfeld");
             return false;
         }
         return true;

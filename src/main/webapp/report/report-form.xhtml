@@ -1,4 +1,8 @@
-<div class="report card" xmlns:h="http://java.sun.com/jsf/html" xmlns:c="http://java.sun.com/jstl/core">
+<div class="report card"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+     xmlns:c="http://java.sun.com/jstl/core">
+
     <h2>Netz melden</h2>
     <h:form styleClass="custom-form">
         <div class="input-container">
@@ -13,25 +17,24 @@
                     <h:inputText styleClass="ui-inputfield" id="reporter2" value="#{userService.loggedInName}" disabled="true" required="true"/>
                 </c:otherwise>
             </c:choose>
-            
-<!--            TODO: Validierung für Längen & Breitengrad-->
 
             <h:outputLabel for="latitude" value="Breitengrad"/>
-            <h:inputText styleClass="ui-inputfield" id="latitude" value="#{reportGhostnetController.latitude}" 
-                         required="true" requiredMessage="Der Breitengrad ist ein Pflichtfeld"/>
+            <h:inputText styleClass="ui-inputfield" id="latitude" value="#{reportGhostnetController.latitude}"
+                         a:placeholder="00.00000"
+                         validator="#{reportGhostnetController.validateCoordinateFormat}"/>
             <h:outputLabel for="longitude" value="Längengrad"/>
-            <h:inputText styleClass="ui-inputfield" id="longitude" value="#{reportGhostnetController.longitude}" 
-                         required="true" requiredMessage="Der Längengrad ist ein Pflichtfeld"/>
+            <h:inputText styleClass="ui-inputfield" id="longitude" value="#{reportGhostnetController.longitude}"
+                         a:placeholder="-0.00"
+                         validator="#{reportGhostnetController.validateCoordinateFormat}"/>
             <h:outputLabel for="size" value="Geschätzte Größe des Netzes in Metern"/>
             <h:inputText styleClass="ui-inputfield" id="size" value="#{reportGhostnetController.size}" 
                          required="true" requiredMessage="Die Größe ist ein Pflichtfeld"/>
         </div>
 
         <h:commandButton styleClass="ui-button ui-button-outlined"
-                         value="Geisternetz melden"
+                         value="Geisternetz melden" type="submit"
                          action="#{reportGhostnetController.reportGhostnet()}"
                          ajax="false"/>
-        <h:messages errorClass="error"/>
     </h:form>
     <div class="center">
         <p>Du möchtest die bereits gemeldeten Netze sehen?</p>

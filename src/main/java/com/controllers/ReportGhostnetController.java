@@ -5,13 +5,12 @@ import com.services.MessageHelper;
 import com.services.UserService;
 import com.services.Validator;
 import entities.Ghostnet;
-import entities.User;
 import enums.GhostnetStatus;
 
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 
 @ManagedBean
@@ -81,13 +80,27 @@ public class ReportGhostnetController {
             Ghostnet ghostnet = new Ghostnet(userService.LoggedInUser.getId(), userService.LoggedInUser.Name, this.longitude, this.latitude, this.size, GhostnetStatus.Reported);
             this.ghostnetService.addGhostnet(ghostnet);
         } else if (Validator.isNullOrEmpty(this.reporterName)) {
-            MessageHelper.addErrorMessage("Der Name darf nicht leer sein");
+            MessageHelper.throwErrorMessage("Der Name darf nicht leer sein");
         } else {
             Ghostnet ghostnet = new Ghostnet(this.reporterName, this.longitude, this.latitude, this.size, GhostnetStatus.Reported);
             this.ghostnetService.addGhostnet(ghostnet);
         }
         
-        // TODO: Info about success, clear form
+        MessageHelper.addInfoMessage("Erfolg", "Das Ghostnet wurde erfolgreich gemeldet");
+        this.ClearForm();
+    }
 
+    public void validateCoordinateFormat(FacesContext context, UIComponent component, String value) {
+        if (Validator.isNullOrEmpty(value)) {
+            MessageHelper.throwErrorMessage("Längen- und Breitengrad sind Pflichtfelder");
+        } else if (!Validator.isValidCoordinate(value)) {
+            MessageHelper.throwErrorMessage("Längen- und Breitengrad müssen das typische Format haben, zB.: [+-]12.10020");
+        }
+    }
+    
+    private void ClearForm() {
+        this.longitude = null;
+        this.latitude = null;
+        this.size = 0;
     }
 }

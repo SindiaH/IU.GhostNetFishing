@@ -7,12 +7,16 @@ import javax.faces.validator.ValidatorException;
 public class MessageHelper {
 
     public static void addMessage(FacesMessage.Severity severity, String summary, String detail) {
-        FacesContext.getCurrentInstance().
-                addMessage(null, new FacesMessage(severity, summary, detail));
+        FacesContext.getCurrentInstance()
+                .addMessage(null, new FacesMessage(severity, summary, detail));
     }
     
     public static void addErrorMessage(String summary, String detail) {
         addMessage(FacesMessage.SEVERITY_ERROR, summary, detail);
+    }
+
+    public static void addErrorMessage(String summary) {
+        addMessage(FacesMessage.SEVERITY_ERROR, "Error", summary);
     }
     
     public static void addInfoMessage(String summary, String detail) {

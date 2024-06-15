@@ -93,12 +93,12 @@ public class UserService {
                 this.setLoggedInUser(user);
                 FacesContext.getCurrentInstance().getExternalContext().redirect("/report");
             } else if (user != null) {
-                MessageHelper.throwErrorMessage("Username oder Passwort sind nicht valide");
+                MessageHelper.addErrorMessage("Username oder Passwort sind nicht valide");
             } else {
-                MessageHelper.throwErrorMessage("Es kann kein Benutzer mit diesem Namen gefunden werden: " + username);
+                MessageHelper.addErrorMessage("Es kann kein Benutzer mit diesem Namen gefunden werden: " + username);
             }
         } catch (Exception e) {
-            MessageHelper.throwErrorMessage("Beim Login ist ein Fehler aufgetreten: " + e);
+            MessageHelper.addErrorMessage("Beim Login ist ein Fehler aufgetreten: " + e);
         }
     }
 

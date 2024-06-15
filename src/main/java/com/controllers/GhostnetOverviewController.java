@@ -55,6 +55,11 @@ public class GhostnetOverviewController {
                 return ghostnetService.lazyRead(first, pageSize, sortInfo, filterBy);
             }
 
+            @Override
+            public int getRowCount() {
+                return Long.valueOf(ghostnetService.readDataCount()).intValue();
+            }
+
 //            @Override
 //            public int getRowCount() {
 //                return Long.valueOf(ghostnetService.readDataCount()).intValue();

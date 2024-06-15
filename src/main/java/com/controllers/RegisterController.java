@@ -83,7 +83,7 @@ public class RegisterController {
             MessageHelper.addInfoMessage("Erfolg", "Der Benutzer wurde erfolgreich angelegt");
             this.userService.login(this.username, this.password);
         } catch (Exception e) {
-            MessageHelper.throwErrorMessage("Beim Anlegen des Benutzers ist ein Fehler aufgetreten:" + e.getMessage());
+            MessageHelper.addErrorMessage("Beim Anlegen des Benutzers ist ein Fehler aufgetreten:" + e.getMessage());
         }
     }
 

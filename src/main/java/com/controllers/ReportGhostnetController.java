@@ -80,7 +80,7 @@ public class ReportGhostnetController {
             Ghostnet ghostnet = new Ghostnet(userService.LoggedInUser.getId(), userService.LoggedInUser.Name, this.longitude, this.latitude, this.size, GhostnetStatus.Reported);
             this.ghostnetService.addGhostnet(ghostnet);
         } else if (Validator.isNullOrEmpty(this.reporterName)) {
-            MessageHelper.throwErrorMessage("Der Name darf nicht leer sein");
+            MessageHelper.addErrorMessage("Der Name darf nicht leer sein");
         } else {
             Ghostnet ghostnet = new Ghostnet(this.reporterName, this.longitude, this.latitude, this.size, GhostnetStatus.Reported);
             this.ghostnetService.addGhostnet(ghostnet);

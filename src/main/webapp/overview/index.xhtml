@@ -10,8 +10,9 @@
 
     <ui:define name="content">
         <div class="card ui-fluit">
-            <p:dataTable var="ghostnet" value="#{ghostnetOverviewController.lazyModel}" paginator="true" rows="10"
-                         rowsPerPageTemplate="5,10,100" id="pojoTable" lazy="true">
+            <p:dataTable var="ghostnet" value="#{ghostnetOverviewController.lazyModel}" paginator="true" rows="5"
+                         paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                         rowsPerPageTemplate="5,10,100" id="ghostnetTable" lazy="true">
                 <p:column headerText="Status">
                     <h:outputText value="#{ghostnet.status}" />
                 </p:column>

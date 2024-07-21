@@ -10,34 +10,47 @@
 
     <ui:define name="content">
         <div class="card ui-fluit">
-            <p:dataTable var="ghostnet" value="#{ghostnetOverviewController.lazyModel}" paginator="true" rows="5"
-                         paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
-                         rowsPerPageTemplate="5,10,100" id="ghostnetTable" lazy="true">
-                <p:column headerText="Status">
-                    <h:outputText value="#{ghostnet.status}" />
-                </p:column>
-                <p:column headerText="Meldende Person">
-                    <h:outputText value="#{ghostnet.reporterName}"/>
-                </p:column>
-                <p:column headerText="gesch. Größe">
-                    <h:outputText value="#{ghostnet.size}"/>
-                </p:column>
-                <p:column headerText="Breitengrad">
-                    <h:outputText value="#{ghostnet.latitude}"/>
-                </p:column>
-                <p:column headerText="Längengrad">
-                    <h:outputText value="#{ghostnet.longitude}"/>
-                </p:column>
-                <p:column headerText="Bergende Person">
-                    <h:outputText value="#{ghostnet.reporterName}"/>
-                </p:column>
-                <p:column headerText="Bergende Person Telefonnummer">
-                    <h:outputText value="#{ghostnet.reporterName}"/>
-                </p:column>
-                <p:column headerText="">
-                    <h:outputText value="Status updaten"/>
-                </p:column>
-            </p:dataTable>
+            <h:form>
+                <p:dataTable var="ghostnet" value="#{ghostnetOverviewController.lazyModel}" paginator="true" rows="5"
+                             paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                             rowsPerPageTemplate="5,10,100" id="ghostnetTable" lazy="true">
+                    <p:column headerText="Status">
+                        <h:outputText value="#{ghostnet.status}"/>
+                    </p:column>
+                    <p:column headerText="Meldende Person">
+                        <h:outputText value="#{ghostnet.reporterName}"/>
+                    </p:column>
+                    <p:column headerText="gesch. Größe">
+                        <h:outputText value="#{ghostnet.size}"/>
+                    </p:column>
+                    <p:column headerText="Breitengrad">
+                        <h:outputText value="#{ghostnet.latitude}"/>
+                    </p:column>
+                    <p:column headerText="Längengrad">
+                        <h:outputText value="#{ghostnet.longitude}"/>
+                    </p:column>
+                    <p:column headerText="Bergende Person">
+                        <h:outputText value="#{ghostnet.reporterName}"/>
+                    </p:column>
+                    <p:column headerText="Bergende Person Telefonnummer">
+                        <h:outputText value="#{ghostnet.phoneNumber}"/>
+                    </p:column>
+                    <p:column headerText="">
+                        <p:column headerText="">
+                            <p:menuButton value="Status ändern"
+                                          buttonStyleClass="ui-button-outlined">
+                                <p:menuitem value="Update2"
+                                            action="#{ghostnetOverviewController.changeStatus()}"
+                                            ajax="false"
+                                            icon="pi pi-times"/>
+                                <p:divider/>
+                                <p:menuitem value="Website" url="http://www.primefaces.org" icon="pi pi-external-link"/>
+                            </p:menuButton>
+                        </p:column>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+            
         </div>
     </ui:define>
 </ui:composition>

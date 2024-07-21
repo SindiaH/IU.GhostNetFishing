@@ -1,5 +1,7 @@
 package entities;
 
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -15,8 +17,9 @@ public class Ghostnet {
     private int id;
     
     public Ghostnet() {}
-    public Ghostnet(String reporterName, String longitude, String latitude, int size, GhostnetStatus status) {
+    public Ghostnet(String reporterName, String phoneNumber, String longitude, String latitude, int size, GhostnetStatus status) {
         this.ReporterName = reporterName;
+        this.PhoneNumber = phoneNumber;
         this.Longitude = longitude;
         this.Latitude = latitude;
         this.Size = size;
@@ -24,9 +27,10 @@ public class Ghostnet {
         this.Status = status;
     }
 
-    public Ghostnet(int userId, String reporterName, String longitude, String latitude, int size, GhostnetStatus status) {
+    public Ghostnet(int userId, String reporterName, String phoneNumber, String longitude, String latitude, int size, GhostnetStatus status) {
         this.ReporterId = userId;
         this.ReporterName = reporterName;
+        this.PhoneNumber = phoneNumber;
         this.Longitude = longitude;
         this.Latitude = latitude;
         this.Size = size;
@@ -36,6 +40,7 @@ public class Ghostnet {
     
     public int ReporterId;
     public String ReporterName;
+    public String PhoneNumber;
     public int AssignedUserId;
     
     public String Longitude;
@@ -44,6 +49,14 @@ public class Ghostnet {
     public Date CreatedAt;
     
     public GhostnetStatus Status;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int _id) {
+        id = _id;
+    }
     
     public String getReporterName() {
         return ReporterName;
@@ -51,6 +64,14 @@ public class Ghostnet {
     
     public void setReporterName(String reporterName) {
         ReporterName = reporterName;
+    }
+
+    public String getPhoneNumber() {
+        return PhoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        PhoneNumber = phoneNumber;
     }
     
     public String getLongitude() {
@@ -91,5 +112,16 @@ public class Ghostnet {
     
     public void setStatus(GhostnetStatus status) {
         Status = status;
+    }
+    
+    public String changeStatus(GhostnetStatus status) {
+        Status = status;
+        addMessage("Save", "Data saved");
+        return "ghostnetOverview";
+    }
+
+    public void addMessage(String summary, String detail) {
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, detail);
+        FacesContext.getCurrentInstance().addMessage(null, message);
     }
 }

@@ -5,6 +5,7 @@ import entities.User;
 import jakarta.inject.Named;
 
 import javax.faces.bean.*;
+import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -107,6 +108,7 @@ public class UserService {
         AuthCookieService.deleteAuthCookie();
         this.setLoggedInUserName(null);
         this.setLoggedInName(null);
+        
         this.setLoggedInTelephone(null);
         this.LoggedInUser = null;
         return "true";
@@ -208,4 +210,10 @@ public class UserService {
         List<User> result = (List<User>) query.getResultList();
         return result;
     }
+    public void validateTelephone(FacesContext context, UIComponent component, String value) {
+        if (!Validator.isValidTelephone(value)) {
+            MessageHelper.throwErrorMessage("Telefonnummer muss das typische Format haben, zB.: 0123456789");
+        }
+    }
+    
 }

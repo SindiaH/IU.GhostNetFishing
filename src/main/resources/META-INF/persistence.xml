@@ -12,10 +12,10 @@
             <property name="hibernate.connection.password" value=""/>
             <!-- init action: This line needed the first time the app is run... comment out
                               so that you can persist data after a first successful run. -->
-<!--            <property name="javax.persistence.schema-generation.database.action"  value="drop-and-create"/>-->
+            <property name="javax.persistence.schema-generation.database.action"  value="drop-and-create"/>
 
-            <!--<property name="hibernate.show_sql" value="true"/> -->
-            <!-- <property name="hibernate.format_sql" value="true"/> -->
+            <property name="hibernate.show_sql" value="true"/> 
+             <property name="hibernate.format_sql" value="true"/> 
 
         </properties>
     </persistence-unit>

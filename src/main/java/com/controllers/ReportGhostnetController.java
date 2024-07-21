@@ -39,6 +39,7 @@ public class ReportGhostnetController {
     }
 
     private String reporterName;
+    private String phoneNumber;
     private String longitude;
     private String latitude;
     private int size;
@@ -49,6 +50,14 @@ public class ReportGhostnetController {
 
     public void setReporterName(String reporterName) {
         this.reporterName = reporterName;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public String getLongitude() {
@@ -77,15 +86,16 @@ public class ReportGhostnetController {
 
     public void reportGhostnet() {
         if (userService.getIsLoggedIn() && userService.LoggedInUser != null) {
-            Ghostnet ghostnet = new Ghostnet(userService.LoggedInUser.getId(), userService.LoggedInUser.Name, this.longitude, this.latitude, this.size, GhostnetStatus.Reported);
+            Ghostnet ghostnet = new Ghostnet(userService.LoggedInUser.getId(), userService.LoggedInUser.Name, userService.LoggedInUser.Telephone,
+                    this.longitude, this.latitude, this.size, GhostnetStatus.Reported);
             this.ghostnetService.addGhostnet(ghostnet);
         } else if (Validator.isNullOrEmpty(this.reporterName)) {
             MessageHelper.addErrorMessage("Der Name darf nicht leer sein");
         } else {
-            Ghostnet ghostnet = new Ghostnet(this.reporterName, this.longitude, this.latitude, this.size, GhostnetStatus.Reported);
+            Ghostnet ghostnet = new Ghostnet(this.reporterName, this.phoneNumber, this.longitude, this.latitude, this.size, GhostnetStatus.Reported);
             this.ghostnetService.addGhostnet(ghostnet);
         }
-        
+
         MessageHelper.addInfoMessage("Erfolg", "Das Ghostnet wurde erfolgreich gemeldet");
         this.ClearForm();
     }
@@ -97,10 +107,12 @@ public class ReportGhostnetController {
             MessageHelper.throwErrorMessage("Längen- und Breitengrad müssen das typische Format haben, zB.: [+-]12.10020");
         }
     }
-    
+
     private void ClearForm() {
         this.longitude = null;
         this.latitude = null;
         this.size = 0;
     }
+
+
 }

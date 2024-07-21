@@ -11,10 +11,15 @@
                     <h:outputLabel for="reporter" value="Name des Melders"/>
                     <h:inputText styleClass="ui-inputfield" id="reporter" value="#{reportGhostnetController.reporterName}" 
                                  required="true" requiredMessage="Der Reporter ist ein Pflichtfeld"/>
+                    <h:outputLabel for="phoneNumber" value="Telefonnummer"/>
+                    <h:inputText styleClass="ui-inputfield" id="phoneNumber" value="#{reportGhostnetController.phoneNumber}"
+                                 validator="#{userService.validateTelephone}" />
                 </c:when>
                 <c:otherwise>
                     <h:outputLabel for="reporter2" value="Name des Melders"/>
                     <h:inputText styleClass="ui-inputfield" id="reporter2" value="#{userService.loggedInName}" disabled="true" required="true"/>
+                    <h:outputLabel for="phoneNumber2" value="Name des Melders"/>
+                    <h:inputText styleClass="ui-inputfield" id="phoneNumber2" value="#{userService.loggedInTelephone}" disabled="true" required="true"/>
                 </c:otherwise>
             </c:choose>
 

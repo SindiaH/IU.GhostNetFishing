@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 public class NavigationBean {
     
     public boolean isCurrentlyActive(String path) {
-        System.out.println("isCurrentlyActive test");
         HttpServletRequest request = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
         String url = request.getRequestURL().toString();
         String uri = request.getRequestURI();

@@ -53,34 +53,14 @@ public class GhostnetOverviewController implements Serializable {
     public void setUserService(UserService userService) {
         this.userService = userService;
     }
-    
-    private GhostnetStatus currentStatus;
-    public GhostnetStatus getCurrentStatus() {
-        return currentStatus;
-    }
-    public void setCurrentStatus(GhostnetStatus currentStatus) {
-        this.currentStatus = currentStatus;
-    }
 
     public LazyDataModel<Ghostnet> getLazyModel() {
         return readDataLazyModel();
     }
 
-    private int statusToChange;
-
-    public void setStatusToChange(int statusToChange) {
-        addMessage("Save", "Data saved: " + statusToChange);
-        this.statusToChange = statusToChange;
-    }
-
-    public int getStatusToChange() {
-        addMessage("Save", "Data saved: ");
-        return statusToChange;
-    }
-
-    public String changeStatus() {
-        addMessage("Save", "Data saved: " + statusToChange);
-        return statusToChange + "";
+    public String changeStatus(Ghostnet ghostnet, String status) {
+        addMessage("Status ändern", "Ändere Status" + status +  " der Id: " + ghostnet.getId());
+        return ghostnet.getId() + "";
     }
 
     public String test() {

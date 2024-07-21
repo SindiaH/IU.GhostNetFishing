@@ -3,6 +3,7 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:p="http://primefaces.org/ui"
+                xmlns:c="http://java.sun.com/jstl/core"
                 xmlns:ui="http://java.sun.com/jsf/facelets">
 
 
@@ -18,7 +19,7 @@
                         <h:outputText value="#{ghostnet.status}"/>
                     </p:column>
                     <p:column headerText="Meldende Person">
-                        <h:outputText value="#{ghostnet.reporterName}"/>
+                        <h:outputText value="#{ghostnet.id}"/>
                     </p:column>
                     <p:column headerText="gesch. Größe">
                         <h:outputText value="#{ghostnet.size}"/>
@@ -36,17 +37,29 @@
                         <h:outputText value="#{ghostnet.phoneNumber}"/>
                     </p:column>
                     <p:column headerText="">
-                        <p:column headerText="">
-                            <p:menuButton value="Status ändern"
-                                          buttonStyleClass="ui-button-outlined">
-                                <p:menuitem value="Update2"
-                                            action="#{ghostnetOverviewController.changeStatus()}"
-                                            ajax="false"
-                                            icon="pi pi-times"/>
-                                <p:divider/>
-                                <p:menuitem value="Website" url="http://www.primefaces.org" icon="pi pi-external-link"/>
-                            </p:menuButton>
-                        </p:column>
+                        <p:menuButton dynamic="true" value="Status ändern"
+                                      buttonStyleClass="ui-button-outlined">
+                            <c:if test="#{userService.isLoggedIn}">
+                                
+                                <p:menuitem dynamic="true" action="#{ghostnetOverviewController.changeStatus(ghostnet, 'RecoveryImminent')}"
+                                            ajax="false">
+                                    Test: <h:outputText value="#{ghostnet.id}"/>
+                                </p:menuitem>
+                                <p:menuitem dynamic="true" value="Bergung bevorstehend"
+                                            oncomplete="dialog.show()" update=":dialog"
+                                            actionListener="#{ghostnetOverviewController.changeStatus(ghostnet, 'RecoveryImminent')}"
+                                            ajax="false"/>
+                                <p:menuitem value="Geborgen"
+                                            action="#{ghostnetOverviewController.changeStatus(ghostnet, 'Recovered')}"
+                                            ajax="false"/>
+                                <p:menuitem value="Verschollen"
+                                            action="#{ghostnetOverviewController.changeStatus(ghostnet, 'Lost')}"
+                                            ajax="false"/>
+                            </c:if>
+                            <c:if test="#{!userService.isLoggedIn}">
+                                <p:menuitem value="Aktionen nur für eingeloggte Benutzer"/>
+                            </c:if>
+                        </p:menuButton>
                     </p:column>
                 </p:dataTable>
             </h:form>

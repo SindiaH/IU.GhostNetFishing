@@ -7,7 +7,7 @@
     <h:form styleClass="custom-form">
         <div class="input-container">
             <c:choose>
-                <c:when test="#{(!userService.isLoggedIn)}">
+                <c:when test="#{(!userBean.isLoggedIn)}">
                     <h:outputLabel for="reporter" value="Name des Melders"/>
                     <h:inputText styleClass="ui-inputfield"
                                  id="reporter"
@@ -18,19 +18,19 @@
                     <h:inputText styleClass="ui-inputfield"
                                  id="phoneNumber"
                                  value="#{reportGhostnetController.phoneNumber}"
-                                 validator="#{userService.validateTelephone}"/>
+                                 validator="#{userBean.validateTelephone}"/>
                 </c:when>
                 <c:otherwise>
                     <h:outputLabel for="reporter2" value="Name des Melders"/>
                     <h:inputText styleClass="ui-inputfield"
                                  id="reporter2"
-                                 value="#{userService.loggedInName}"
+                                 value="#{userBean.loggedInName}"
                                  disabled="true"
                                  required="true"/>
                     <h:outputLabel for="phoneNumber2" value="Telefonnummer des Melders"/>
                     <h:inputText styleClass="ui-inputfield"
                                  id="phoneNumber2"
-                                 value="#{userService.loggedInTelephone}"
+                                 value="#{userBean.loggedInTelephone}"
                                  disabled="true"
                                  required="true"/>
                 </c:otherwise>
@@ -51,7 +51,7 @@
 
         <h:commandButton styleClass="ui-button ui-button-outlined"
                          value="Geisternetz melden" type="submit"
-                         action="#{reportGhostnetController.reportGhostnet()}"
+                         action="#{reportGhostnetController.reportGhostnet}"
                          ajax="false"/>
     </h:form>
     <div class="center">

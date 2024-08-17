@@ -21,7 +21,8 @@ public class User {
         this.Telephone = telephone;
     }
 
-    public User(String name, String username, String telephone) {
+    public User(int id, String name, String username, String telephone) {
+        this.id = id;
         this.Name = name;
         this.Username = username;
         this.Telephone = telephone;

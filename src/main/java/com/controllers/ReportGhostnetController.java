@@ -1,41 +1,39 @@
 package com.controllers;
 
-import com.services.GhostnetService;
-import com.services.MessageHelper;
-import com.services.UserService;
+import com.data.GhostnetDataStore;
+import com.helper.ControllerHelper;
+import com.helper.MessageHelper;
+import com.beans.UserBean;
 import com.services.Validator;
 import entities.Ghostnet;
 import com.enums.GhostnetStatus;
+import entities.User;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
+import java.io.IOException;
 
 @ManagedBean
 @ViewScoped
 public class ReportGhostnetController {
-    @ManagedProperty(value = "#{ghostnetService}")
-    private GhostnetService ghostnetService;
+    private final GhostnetDataStore ghostnetDataStore;
 
-    public GhostnetService getGhostnetService() {
-        return ghostnetService;
+    public ReportGhostnetController() {
+        ghostnetDataStore = GhostnetDataStore.getInstance();
     }
 
-    public void setGhostnetService(GhostnetService ghostnetService) {
-        this.ghostnetService = ghostnetService;
+    @ManagedProperty(value = "#{userBean}")
+    private UserBean userBean;
+
+    public UserBean getUserBean() {
+        return userBean;
     }
 
-    @ManagedProperty(value = "#{userService}")
-    private UserService userService;
-
-    public UserService getUserService() {
-        return userService;
-    }
-
-    public void setUserService(UserService userService) {
-        this.userService = userService;
+    public void setUserBean(UserBean userBean) {
+        this.userBean = userBean;
     }
 
     private String reporterName;
@@ -84,26 +82,30 @@ public class ReportGhostnetController {
         this.size = size;
     }
 
-    public void reportGhostnet() {
-        if (userService.getIsLoggedIn() && userService.LoggedInUser != null) {
-            Ghostnet ghostnet = new Ghostnet(userService.LoggedInUser.getId(), userService.LoggedInUser.Name, userService.LoggedInUser.Telephone,
+    public String reportGhostnet() {
+        User user = userBean.getLoggedInUser();
+
+        if (userBean.getIsLoggedIn() && user != null) {
+            Ghostnet ghostnet = new Ghostnet(user.getId(), user.Name, user.Telephone,
                     this.longitude, this.latitude, this.size, GhostnetStatus.Reported);
-            this.ghostnetService.addGhostnet(ghostnet);
+            this.ghostnetDataStore.addGhostnet(ghostnet);
         } else if (Validator.isNullOrEmpty(this.reporterName)) {
             MessageHelper.addErrorMessage("Der Name darf nicht leer sein");
         } else {
-            Ghostnet ghostnet = new Ghostnet(this.reporterName, this.phoneNumber, this.longitude, this.latitude, this.size, GhostnetStatus.Reported);
-            this.ghostnetService.addGhostnet(ghostnet);
+            Ghostnet ghostnet = new Ghostnet(this.reporterName, this.phoneNumber, this.longitude, this.latitude,
+                    this.size, GhostnetStatus.Reported);
+            this.ghostnetDataStore.addGhostnet(ghostnet);
         }
 
         MessageHelper.addInfoMessage("Erfolg", "Das Ghostnet wurde erfolgreich gemeldet");
         this.ClearForm();
+        return "";
     }
 
     public void validateCoordinateFormat(FacesContext context, UIComponent component, String value) {
         if (Validator.isNullOrEmpty(value)) {
             MessageHelper.throwErrorMessage("Längen- und Breitengrad sind Pflichtfelder");
-        } else if (!Validator.isValidCoordinate(value)) {
+        } else if (Validator.isInvalidCoordinate(value)) {
             MessageHelper.throwErrorMessage("Längen- und Breitengrad müssen das typische Format haben, zB.: [+-]12.10020");
         }
     }
@@ -113,6 +115,4 @@ public class ReportGhostnetController {
         this.latitude = null;
         this.size = 0;
     }
-
-
 }

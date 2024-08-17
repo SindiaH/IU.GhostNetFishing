@@ -129,6 +129,7 @@ public class Ghostnet {
     public GhostnetStatus getStatus() {
         return Status;
     }
+
     public String getStatusName() {
         switch (Status) {
             case Reported:
@@ -163,15 +164,41 @@ public class Ghostnet {
         return Status == GhostnetStatus.Reported;
     }
 
-    public boolean canSetRecovered() {
-        return Status == GhostnetStatus.RecoveryImminent;
+    public boolean canSetRecovered(User user) {
+        return Status == GhostnetStatus.RecoveryImminent && user != null && user.getId() == AssignedUserId;
     }
 
-    public boolean canSetLost() {
-        return Status == GhostnetStatus.RecoveryImminent;
+    public boolean canSetLost(User user) {
+        return Status == GhostnetStatus.RecoveryImminent && user != null && user.getId() == AssignedUserId;
     }
-    
-    public boolean getCanChangeStatus() {
-        return Status != GhostnetStatus.Lost && Status != GhostnetStatus.Recovered;
+
+    public boolean canChangeStatus(User user) {
+        return Status != GhostnetStatus.Lost && Status != GhostnetStatus.Recovered &&
+                (canSetRecoveryImminent() || canSetRecovered(user) || canSetLost(user));
+    }
+
+    public boolean canSetNewStatus(GhostnetStatus newStatus, User user) {
+        if (newStatus == GhostnetStatus.RecoveryImminent && !canSetRecoveryImminent()) {
+            return false;
+        } else if (newStatus == GhostnetStatus.Recovered && !canSetRecovered(user) ) {
+            return false;
+        } else if (newStatus == GhostnetStatus.Lost && !canSetLost(user)) {
+            return false;
+        }
+        return true;
+    }
+
+    public boolean setNewStatusIfAllowed(GhostnetStatus newStatus, User user) {
+        if (!canSetNewStatus(newStatus, user)) {
+            return false;
+        }
+        
+        if (newStatus == GhostnetStatus.RecoveryImminent) {
+            AssignedUserName = user.Name;
+            AssignedUserId = user.getId();
+            AssignedUserPhoneNumber = user.Telephone;
+        }
+        Status = newStatus;
+        return true;
     }
 }

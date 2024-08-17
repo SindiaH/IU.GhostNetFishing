@@ -1,24 +1,26 @@
 package com.controllers;
 
-import com.services.UserService;
+import com.beans.UserBean;
+import com.helper.ControllerHelper;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import java.io.IOException;
 
 @ManagedBean
 @ViewScoped
 public class LoginController {
     
-    @ManagedProperty(value = "#{userService}")
-    private UserService userService;
+    @ManagedProperty(value = "#{userBean}")
+    private UserBean userBean;
 
-    public UserService getUserService() {
-        return userService;
+    public UserBean getUserBean() {
+        return userBean;
     }
 
-    public void setUserService(UserService userService) {
-        this.userService = userService;
+    public void setUserBean(UserBean userBean) {
+        this.userBean = userBean;
     }
 
     private String username;
@@ -41,6 +43,7 @@ public class LoginController {
     }
 
     public void login() {
-        this.userService.login(this.username, this.password);
+//        ControllerHelper.ensureNoSubmitOnRefresh();
+        this.userBean.tryLogin(this.username, this.password);
     }
 }

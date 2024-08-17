@@ -1,11 +1,10 @@
-package com.services;
+package com.helper;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
 
 public class MessageHelper {
-
     public static void addMessage(FacesMessage.Severity severity, String summary, String detail) {
         FacesContext.getCurrentInstance()
                 .addMessage(null, new FacesMessage(severity, summary, detail));
@@ -28,5 +27,4 @@ public class MessageHelper {
 
         throw new ValidatorException(message);
     }
-
 }

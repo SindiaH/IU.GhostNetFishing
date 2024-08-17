@@ -2,6 +2,7 @@ package com.services;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.helper.CryptHelper;
 import dtos.AuthCookieDto;
 import entities.User;
 
@@ -9,23 +10,17 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.Cookie;
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import java.sql.Date;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
 
 @ManagedBean
 @ViewScoped
 public class AuthCookieService {
-    
     public static int MAX_AGE = 31536000;
     public static String AUTH_COOKIE_NAME = "authValue";
-    
 
     public static void saveUserToCookie(User user) {
         Map<String, Object> properties = new HashMap<>();
@@ -41,10 +36,9 @@ public class AuthCookieService {
         if (cookie == null) {
             return null;
         }
-        
+
         String decryptedValue = CryptHelper.decrypt(cookie.getValue());
-        System.out.println(decryptedValue);
-        if(Validator.isNullOrEmpty(decryptedValue)) {
+        if (Validator.isNullOrEmpty(decryptedValue)) {
             return null;
         }
 
@@ -52,11 +46,10 @@ public class AuthCookieService {
         if (user == null) {
             return null;
         }
-        
-        System.out.println(user);
+
         return user;
     }
-    
+
     public static void deleteAuthCookie() {
         try {
             Map<String, Object> properties = new HashMap<>();
@@ -64,7 +57,7 @@ public class AuthCookieService {
             properties.put("path", "/");
             FacesContext.getCurrentInstance().getExternalContext().addResponseCookie(AuthCookieService.AUTH_COOKIE_NAME, "", properties);
         } catch (Exception e) {
-            System.out.println("Error while deleting auth cookie: " + e);
+            System.err.println("Error while deleting auth cookie: " + e);
         }
     }
 

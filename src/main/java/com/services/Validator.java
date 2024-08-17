@@ -8,12 +8,12 @@ public class Validator {
         return value == null || value.isEmpty();
     }
 
-    public static boolean isValidCoordinate(String longitude) {
-        return !Validator.isNullOrEmpty(longitude) && longitude.matches(COORDINATE_REGEX);
+    public static boolean isInvalidCoordinate(String longitude) {
+        return Validator.isNullOrEmpty(longitude) && !longitude.matches(COORDINATE_REGEX);
     }
     
-    public static boolean isValidTelephone(String telephone) {
-        return !Validator.isNullOrEmpty(telephone) &&  (telephone).matches(TELEPHONE_REGEX);
+    public static boolean isInvalidPhoneNumber(String telephone) {
+        return Validator.isNullOrEmpty(telephone) || !(telephone).matches(TELEPHONE_REGEX);
     }
     
 }

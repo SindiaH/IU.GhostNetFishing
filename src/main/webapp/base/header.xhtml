@@ -6,9 +6,9 @@
     </div>
     <h:form>
         <c:choose>
-            <c:when test="#{userService.isLoggedIn}">
-                <p><h:outputText value="Hi #{userService.loggedInName}!" /></p>
-                <h:commandButton styleClass="ui-button ui-button-outlined ui-button-secondary" action="#{userService.logout}" value="Logout" />
+            <c:when test="#{userBean.isLoggedIn}">
+                <p><h:outputText value="Hi #{userBean.loggedInName}!" /></p>
+                <h:commandButton styleClass="ui-button ui-button-outlined ui-button-secondary" action="#{userBean.logout}" value="Logout" />
             </c:when>
             <c:otherwise>
                 <a class="#{navigationBean.isCurrentlyActive('login') ? 'active' : ''}" href="/login">Login</a>

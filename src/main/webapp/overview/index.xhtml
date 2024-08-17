@@ -31,30 +31,28 @@
                     </p:column>
                     <p:column headerText="Bergende Person">
                         <div><h:outputText value="#{ghostnet.assignedUserName}"/></div>
-                        <c:if test="#{ghostnet.assignedUserPhoneNumber}">
-                            <div>Tel.: <h:outputText value="#{ghostnet.assignedUserPhoneNumber}"/></div>
-                        </c:if>
+                        <div><h:outputText value="#{ghostnet.assignedUserPhoneNumber}"/></div>
                     </p:column>
                     <p:column headerText="" styleClass="status-column">
                         <p:menuButton value="Status ändern"
-                                      rendered="#{ghostnet.canChangeStatus}"
+                                      rendered="#{ghostnet.canChangeStatus(userBean.loggedInUser)}"
                                       buttonStyleClass="ui-button-outlined">
-                            <c:if test="#{userService.isLoggedIn}">
+                            <c:if test="#{userBean.isLoggedIn}">
                                 <p:menuitem rendered="#{ghostnet.canSetRecoveryImminent()}"
                                             value="Bergung mir zuweisen"
                                             action="#{ghostnetOverviewController.changeStatus(ghostnet, 'RecoveryImminent')}"
                                             ajax="false"/>
-                                <p:menuitem rendered="#{ghostnet.canSetRecovered()}"
+                                <p:menuitem rendered="#{ghostnet.canSetRecovered(userBean.loggedInUser)}"
                                             value="Geborgen"
                                             action="#{ghostnetOverviewController.changeStatus(ghostnet, 'Recovered')}"
                                             ajax="false"/>
-                                <p:menuitem rendered="#{ghostnet.canSetLost()}"
+                                <p:menuitem rendered="#{ghostnet.canSetLost(userBean.loggedInUser)}"
                                             value="Verschollen"
                                             action="#{ghostnetOverviewController.changeStatus(ghostnet, 'Lost')}"
                                             ajax="false"/>
                             </c:if>
-                            <c:if test="#{!userService.isLoggedIn}">
-                                <p:menuitem value="Aktionen nur für eingeloggte Benutzer"/>
+                            <c:if test="#{!userBean.isLoggedIn}">
+                                <p:menuitem value="Aktionen nur für eingeloggte Benutzer verfügbar"/>
                             </c:if>
                         </p:menuButton>
 

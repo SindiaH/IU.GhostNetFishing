@@ -5,8 +5,6 @@
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:c="http://java.sun.com/jstl/core"
                 xmlns:ui="http://java.sun.com/jsf/facelets">
-
-
     <ui:define name="title">GhostNetFishing</ui:define>
 
     <ui:define name="content">
@@ -16,10 +14,11 @@
                              paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
                              rowsPerPageTemplate="5,10,100" id="ghostnetTable" lazy="true">
                     <p:column headerText="Status">
-                        <h:outputText value="#{ghostnet.status}"/>
+                        <h:outputText value="#{ghostnet.statusName}"/>
                     </p:column>
                     <p:column headerText="Meldende Person">
-                        <h:outputText value="#{ghostnet.id}"/>
+                        <div><h:outputText value="#{ghostnet.reporterName}"/></div>
+                        <div>Tel.: <h:outputText value="#{ghostnet.reporterPhoneNumber}"/></div>
                     </p:column>
                     <p:column headerText="gesch. Größe">
                         <h:outputText value="#{ghostnet.size}"/>
@@ -31,40 +30,26 @@
                         <h:outputText value="#{ghostnet.longitude}"/>
                     </p:column>
                     <p:column headerText="Bergende Person">
-                        <h:outputText value="#{ghostnet.reporterName}"/>
+                        <div><h:outputText value="#{ghostnet.assignedUserName}"/></div>
+                        <c:if test="#{ghostnet.assignedUserPhoneNumber}">
+                            <div>Tel.: <h:outputText value="#{ghostnet.assignedUserPhoneNumber}"/></div>
+                        </c:if>
                     </p:column>
-                    <p:column headerText="Bergende Person Telefonnummer">
-                        <h:outputText value="#{ghostnet.phoneNumber}"/>
-                    </p:column>
-                    <p:column headerText="">
-
-                        <h:commandLink action="#{ghostnetOverviewController.changeStatus2(ghostnet.id, 'RecoveryImminent')}"
-                                       rendered="#{ghostnet != null}">
-                            Test commandlink
-                        </h:commandLink>
-                        
-                        <h:commandButton value="Test for id: #{ghostnet.id}"
-                                         action="#{ghostnetOverviewController.changeStatus(ghostnet, 'RecoveryImminent')}"
-                                        ajax="false" rendered="#{ghostnet != null}"
-                                    />
-                        
+                    <p:column headerText="" styleClass="status-column">
                         <p:menuButton value="Status ändern"
+                                      rendered="#{ghostnet.canChangeStatus}"
                                       buttonStyleClass="ui-button-outlined">
                             <c:if test="#{userService.isLoggedIn}">
-
-
-                                <p:menuitem actionListener="#{ghostnetOverviewController.changeStatus(ghostnet, 'RecoveryImminent')}"
-                                            rendered="#{ghostnet != null}">
-                                    Test: <h:outputText value="#{ghostnet.id}"/>
-                                </p:menuitem>
-                                <p:menuitem value="Bergung bevorstehend"
-                                            oncomplete="dialog.show()" rendered="#{ghostnet != null}"
-                                            actionListener="#{ghostnetOverviewController.changeStatus(ghostnet, 'RecoveryImminent')}"
+                                <p:menuitem rendered="#{ghostnet.canSetRecoveryImminent()}"
+                                            value="Bergung mir zuweisen"
+                                            action="#{ghostnetOverviewController.changeStatus(ghostnet, 'RecoveryImminent')}"
                                             ajax="false"/>
-                                <p:menuitem value="Geborgen" rendered="#{ghostnet != null}"
+                                <p:menuitem rendered="#{ghostnet.canSetRecovered()}"
+                                            value="Geborgen"
                                             action="#{ghostnetOverviewController.changeStatus(ghostnet, 'Recovered')}"
                                             ajax="false"/>
-                                <p:menuitem value="Verschollen" rendered="#{ghostnet != null}"
+                                <p:menuitem rendered="#{ghostnet.canSetLost()}"
+                                            value="Verschollen"
                                             action="#{ghostnetOverviewController.changeStatus(ghostnet, 'Lost')}"
                                             ajax="false"/>
                             </c:if>
@@ -72,6 +57,7 @@
                                 <p:menuitem value="Aktionen nur für eingeloggte Benutzer"/>
                             </c:if>
                         </p:menuButton>
+
                     </p:column>
                 </p:dataTable>
             </h:form>

@@ -176,3 +176,15 @@ input[type='text'], input[type='password'] {
     padding: .643rem .75rem;
     font-size: 1.2rem;
 }
+
+.ui-button-text {
+    padding: 0 0 0 1rem !important;
+    text-align: left;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.status-column {
+    width: 150px !important;
+}

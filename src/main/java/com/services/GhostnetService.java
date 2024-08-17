@@ -25,6 +25,7 @@ import java.util.Map;
 @Named("ghostnetService")
 public class GhostnetService {
     EntityManager entityManager;
+
     public GhostnetService() {
         EntityManagerFactory factory = Persistence.createEntityManagerFactory("ghost-net-app");
         entityManager = factory.createEntityManager();
@@ -49,14 +50,14 @@ public class GhostnetService {
         List<Ghostnet> result = (List<Ghostnet>) query.getResultList();
         return result;
     }
-    
+
     public long readDataCount() {
         String jpql = "SELECT p FROM Ghostnet p";
         Query query = entityManager.createQuery(jpql);
 
         return query.getResultStream().count();
     }
-    
+
     public List<Ghostnet> lazyRead(int first, int pageSize, Map<String, SortMeta> sortInfo, Map<String, FilterMeta> filterBy) {
         String jpql = "SELECT p from Ghostnet p";
         Query query = entityManager.createQuery(jpql);

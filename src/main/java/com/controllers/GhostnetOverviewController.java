@@ -1,20 +1,16 @@
 package com.controllers;
 
+import com.enums.GhostnetStatus;
 import com.services.GhostnetService;
 import com.services.MessageHelper;
 import com.services.UserService;
 import entities.Ghostnet;
-import enums.GhostnetStatus;
 import jakarta.inject.Named;
-import org.primefaces.PrimeFaces;
-import org.primefaces.event.SelectEvent;
 import org.primefaces.model.*;
 
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
@@ -25,24 +21,28 @@ import java.util.Map;
 public class GhostnetOverviewController implements Serializable {
     @ManagedProperty(value = "#{ghostnetService}")
     private GhostnetService ghostnetService;
+
     public GhostnetService getGhostnetService() {
         return ghostnetService;
     }
+
     public void setGhostnetService(GhostnetService ghostnetService) {
         this.ghostnetService = ghostnetService;
     }
 
     @ManagedProperty(value = "#{userService}")
     private UserService userService;
+
     public UserService getUserService() {
         return userService;
     }
+
     public void setUserService(UserService userService) {
         this.userService = userService;
     }
-    
+
     private LazyDataModel<Ghostnet> lazyModel;
-    
+
     public GhostnetOverviewController() {
         lazyModel = readDataLazyModel();
     }
@@ -51,35 +51,18 @@ public class GhostnetOverviewController implements Serializable {
         return lazyModel;
     }
 
-    public String changeStatus(Ghostnet ghostnet, String status) {
-        addMessage("Status ändern", "Ändere Status" + status +  " der Id: " + ghostnet.getId());
-        return ghostnet.getId() + "";
-    }
+    public void changeStatus(Ghostnet ghostnet, String status) {
+        GhostnetStatus newStatus = GhostnetStatus.valueOf(status);
+        if (newStatus == GhostnetStatus.RecoveryImminent) {
+            ghostnet.AssignedUserName = userService.getloggedInUserName();
+            ghostnet.AssignedUserId = userService.LoggedInUser.getId();
+            ghostnet.ReporterPhoneNumber = userService.LoggedInUser.Telephone;
+        }
+        ghostnet.Status = newStatus;
 
-    public void changeStatus2(int ghostnetId, String status) {
-        addMessage("Status ändern 2", "Ändere Status" + status +  " der Id: " + ghostnetId);
-    }
+        ghostnetService.updateGhostnet(ghostnet);
 
-    public String test() {
-        System.out.println("Logged out: ");
-        MessageHelper.addErrorMessage("Fehler", "Der Name des Benutzers ist ein Pflichtfeld");
-        return "true";
-    }
-
-    public void addMessage(String summary, String detail) {
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, detail);
-        FacesContext.getCurrentInstance().addMessage(null, message);
-    }
-
-    public void onStatusChosen(SelectEvent event) {
-        GhostnetStatus status = (GhostnetStatus) event.getObject();
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Status Selected", "Name:" + status);
-
-        FacesContext.getCurrentInstance().addMessage(null, message);
-    }
-
-    public void selectStatus(SelectEvent event) {
-        PrimeFaces.current().dialog().closeDynamic(event);
+        MessageHelper.addInfoMessage("Status geändert", "Status wurde erfolgreich auf " + status + " geändert");
     }
 
     public LazyDataModel<Ghostnet> readDataLazyModel() {
@@ -100,7 +83,7 @@ public class GhostnetOverviewController implements Serializable {
             }
 
             @Override
-            public String  getRowKey(Ghostnet ghostnet) {
+            public String getRowKey(Ghostnet ghostnet) {
                 return String.valueOf(ghostnet.getId());
             }
         };

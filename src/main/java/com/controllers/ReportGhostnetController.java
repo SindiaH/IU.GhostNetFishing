@@ -5,7 +5,7 @@ import com.services.MessageHelper;
 import com.services.UserService;
 import com.services.Validator;
 import entities.Ghostnet;
-import enums.GhostnetStatus;
+import com.enums.GhostnetStatus;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;

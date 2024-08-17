@@ -1,34 +1,21 @@
 package com.controllers;
 
-import com.services.AuthCookieService;
 import com.services.GhostnetService;
 import com.services.MessageHelper;
 import com.services.UserService;
 import entities.Ghostnet;
-import entities.Pojo;
 import enums.GhostnetStatus;
-import jakarta.annotation.PostConstruct;
 import jakarta.inject.Named;
-import org.h2.expression.Variable;
 import org.primefaces.PrimeFaces;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.model.*;
-import org.primefaces.model.menu.DefaultMenuItem;
-import org.primefaces.model.menu.DefaultMenuModel;
-import org.primefaces.model.menu.DefaultSubMenu;
-import org.primefaces.model.menu.MenuModel;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import javax.persistence.Query;
-import java.awt.event.ActionEvent;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -53,14 +40,24 @@ public class GhostnetOverviewController implements Serializable {
     public void setUserService(UserService userService) {
         this.userService = userService;
     }
+    
+    private LazyDataModel<Ghostnet> lazyModel;
+    
+    public GhostnetOverviewController() {
+        lazyModel = readDataLazyModel();
+    }
 
     public LazyDataModel<Ghostnet> getLazyModel() {
-        return readDataLazyModel();
+        return lazyModel;
     }
 
     public String changeStatus(Ghostnet ghostnet, String status) {
         addMessage("Status ändern", "Ändere Status" + status +  " der Id: " + ghostnet.getId());
         return ghostnet.getId() + "";
+    }
+
+    public void changeStatus2(int ghostnetId, String status) {
+        addMessage("Status ändern 2", "Ändere Status" + status +  " der Id: " + ghostnetId);
     }
 
     public String test() {
@@ -102,15 +99,10 @@ public class GhostnetOverviewController implements Serializable {
                 return Long.valueOf(ghostnetService.readDataCount()).intValue();
             }
 
-//            @Override
-//            public int getRowCount() {
-//                return Long.valueOf(ghostnetService.readDataCount()).intValue();
-//            }
-
-//            @Override
-//            public List<Ghostnet> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, FilterMeta> filterBy) {
-//                return ghostnetService.lazyRead(first, pageSize, sortField, sortOrder, filterBy);
-//            }
+            @Override
+            public String  getRowKey(Ghostnet ghostnet) {
+                return String.valueOf(ghostnet.getId());
+            }
         };
     }
 }

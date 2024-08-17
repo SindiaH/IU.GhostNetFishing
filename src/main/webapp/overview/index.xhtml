@@ -10,9 +10,9 @@
     <ui:define name="title">GhostNetFishing</ui:define>
 
     <ui:define name="content">
-        <div class="card ui-fluit">
+        <div class="card ui-fluid">
             <h:form>
-                <p:dataTable var="ghostnet" value="#{ghostnetOverviewController.lazyModel}" paginator="true" rows="5"
+                <p:dataTable value="#{ghostnetOverviewController.lazyModel}" var="ghostnet" paginator="true" rows="5"
                              paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
                              rowsPerPageTemplate="5,10,100" id="ghostnetTable" lazy="true">
                     <p:column headerText="Status">
@@ -37,22 +37,34 @@
                         <h:outputText value="#{ghostnet.phoneNumber}"/>
                     </p:column>
                     <p:column headerText="">
-                        <p:menuButton dynamic="true" value="Status ändern"
+
+                        <h:commandLink action="#{ghostnetOverviewController.changeStatus2(ghostnet.id, 'RecoveryImminent')}"
+                                       rendered="#{ghostnet != null}">
+                            Test commandlink
+                        </h:commandLink>
+                        
+                        <h:commandButton value="Test for id: #{ghostnet.id}"
+                                         action="#{ghostnetOverviewController.changeStatus(ghostnet, 'RecoveryImminent')}"
+                                        ajax="false" rendered="#{ghostnet != null}"
+                                    />
+                        
+                        <p:menuButton value="Status ändern"
                                       buttonStyleClass="ui-button-outlined">
                             <c:if test="#{userService.isLoggedIn}">
-                                
-                                <p:menuitem dynamic="true" action="#{ghostnetOverviewController.changeStatus(ghostnet, 'RecoveryImminent')}"
-                                            ajax="false">
+
+
+                                <p:menuitem actionListener="#{ghostnetOverviewController.changeStatus(ghostnet, 'RecoveryImminent')}"
+                                            rendered="#{ghostnet != null}">
                                     Test: <h:outputText value="#{ghostnet.id}"/>
                                 </p:menuitem>
-                                <p:menuitem dynamic="true" value="Bergung bevorstehend"
-                                            oncomplete="dialog.show()" update=":dialog"
+                                <p:menuitem value="Bergung bevorstehend"
+                                            oncomplete="dialog.show()" rendered="#{ghostnet != null}"
                                             actionListener="#{ghostnetOverviewController.changeStatus(ghostnet, 'RecoveryImminent')}"
                                             ajax="false"/>
-                                <p:menuitem value="Geborgen"
+                                <p:menuitem value="Geborgen" rendered="#{ghostnet != null}"
                                             action="#{ghostnetOverviewController.changeStatus(ghostnet, 'Recovered')}"
                                             ajax="false"/>
-                                <p:menuitem value="Verschollen"
+                                <p:menuitem value="Verschollen" rendered="#{ghostnet != null}"
                                             action="#{ghostnetOverviewController.changeStatus(ghostnet, 'Lost')}"
                                             ajax="false"/>
                             </c:if>
@@ -63,7 +75,6 @@
                     </p:column>
                 </p:dataTable>
             </h:form>
-            
         </div>
     </ui:define>
 </ui:composition>

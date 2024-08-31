@@ -15,11 +15,11 @@ import java.time.LocalDateTime;
 
 @ManagedBean
 @SessionScoped
-@Named("userBean")
-public class UserBean {
+@Named("authenticationBean")
+public class AuthenticationBean {
     private final UserDataStore userDataStore;
 
-    public UserBean() {
+    public AuthenticationBean() {
         userDataStore = UserDataStore.getInstance();
         AuthCookieDto user = AuthCookieService.getUserFromCookie();
         if (isCookieValid(user)) {
@@ -88,19 +88,21 @@ public class UserBean {
         this.isLoggedIn = isLoggedIn;
     }
 
-    public void tryLogin(String username, String password) {
+    public boolean tryLogin(String username, String password) {
         try {
             User user = userDataStore.readData(username);
             if (user != null && user.isPasswordValid(password)) {
                 this.setLoggedInUser(user);
-                FacesContext.getCurrentInstance().getExternalContext().redirect("/report");
+                return true;
             } else if (user != null) {
                 MessageHelper.addErrorMessage("Username oder Passwort sind nicht valide");
             } else {
                 MessageHelper.addErrorMessage("Es kann kein Benutzer mit diesem Namen gefunden werden: " + username);
             }
+            return false;
         } catch (Exception e) {
             MessageHelper.addErrorMessage("Beim Login ist ein Fehler aufgetreten: " + e);
+            return false;
         }
     }
 

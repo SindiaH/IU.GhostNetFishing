@@ -16,7 +16,7 @@
                     <p:column headerText="Status">
                         <h:outputText value="#{ghostnet.statusName}"/>
                     </p:column>
-                    <c:if test="#{userBean.isLoggedIn}">
+                    <c:if test="#{authenticationBean.isLoggedIn}">
                         <p:column headerText="Meldende Person">
                             <div><h:outputText value="#{ghostnet.reporterName}"/></div>
                             <div><h:outputText value="#{ghostnet.reporterPhoneNumber}"/></div>
@@ -31,7 +31,7 @@
                     <p:column headerText="Längengrad">
                         <h:outputText value="#{ghostnet.longitude}"/>
                     </p:column>
-                    <c:if test="#{userBean.isLoggedIn}">
+                    <c:if test="#{authenticationBean.isLoggedIn}">
                         <p:column headerText="Bergende Person">
                             <div><h:outputText value="#{ghostnet.assignedUserName}"/></div>
                             <div><h:outputText value="#{ghostnet.assignedUserPhoneNumber}"/></div>
@@ -39,23 +39,23 @@
                     </c:if>
                     <p:column headerText="" styleClass="status-column">
                         <p:menuButton value="Status ändern"
-                                      rendered="#{ghostnet.canChangeStatus(userBean.loggedInUser)}"
+                                      rendered="#{ghostnet.canChangeStatus(authenticationBean.loggedInUser)}"
                                       buttonStyleClass="ui-button-outlined">
-                            <c:if test="#{userBean.isLoggedIn}">
+                            <c:if test="#{authenticationBean.isLoggedIn}">
                                 <p:menuitem rendered="#{ghostnet.canSetRecoveryImminent()}"
                                             value="Bergung mir zuweisen"
                                             action="#{ghostnetOverviewController.changeStatus(ghostnet, 'RecoveryImminent')}"
                                             ajax="false"/>
-                                <p:menuitem rendered="#{ghostnet.canSetRecovered(userBean.loggedInUser)}"
+                                <p:menuitem rendered="#{ghostnet.canSetRecovered(authenticationBean.loggedInUser)}"
                                             value="Geborgen"
                                             action="#{ghostnetOverviewController.changeStatus(ghostnet, 'Recovered')}"
                                             ajax="false"/>
-                                <p:menuitem rendered="#{ghostnet.canSetLost(userBean.loggedInUser)}"
+                                <p:menuitem rendered="#{ghostnet.canSetLost(authenticationBean.loggedInUser)}"
                                             value="Verschollen"
                                             action="#{ghostnetOverviewController.changeStatus(ghostnet, 'Lost')}"
                                             ajax="false"/>
                             </c:if>
-                            <c:if test="#{!userBean.isLoggedIn}">
+                            <c:if test="#{!authenticationBean.isLoggedIn}">
                                 <p:menuitem value="Aktionen sind nur für eingeloggte Benutzer verfügbar"/>
                             </c:if>
                         </p:menuButton>

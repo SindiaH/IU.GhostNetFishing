@@ -1,8 +1,8 @@
 package com.controllers;
 
+import com.beans.AuthenticationBean;
 import com.data.GhostnetDataStore;
 import com.helper.MessageHelper;
-import com.beans.UserBean;
 import com.services.Validator;
 import entities.Ghostnet;
 import com.enums.GhostnetStatus;
@@ -23,15 +23,15 @@ public class ReportGhostnetController {
         ghostnetDataStore = GhostnetDataStore.getInstance();
     }
 
-    @ManagedProperty(value = "#{userBean}")
-    private UserBean userBean;
+    @ManagedProperty(value = "#{authenticationBean}")
+    private AuthenticationBean authenticationBean;
 
-    public UserBean getUserBean() {
-        return userBean;
+    public AuthenticationBean getAuthenticationBean() {
+        return authenticationBean;
     }
 
-    public void setUserBean(UserBean userBean) {
-        this.userBean = userBean;
+    public void setAuthenticationBean(AuthenticationBean authenticationBean) {
+        this.authenticationBean = authenticationBean;
     }
 
     private String reporterName;
@@ -81,9 +81,9 @@ public class ReportGhostnetController {
     }
 
     public String reportGhostnet() {
-        User user = userBean.getLoggedInUser();
+        User user = authenticationBean.getLoggedInUser();
 
-        if (userBean.getIsLoggedIn() && user != null) {
+        if (authenticationBean.getIsLoggedIn() && user != null) {
             Ghostnet ghostnet = new Ghostnet(user.Name, user.Telephone,
                     this.longitude, this.latitude, this.size, GhostnetStatus.Reported);
             this.ghostnetDataStore.addGhostnet(ghostnet);

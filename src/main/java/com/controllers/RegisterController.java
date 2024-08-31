@@ -1,7 +1,7 @@
 package com.controllers;
 
+import com.beans.AuthenticationBean;
 import com.helper.MessageHelper;
-import com.beans.UserBean;
 import com.services.Validator;
 import entities.User;
 
@@ -16,15 +16,15 @@ import javax.faces.context.FacesContext;
 @ManagedBean
 @ViewScoped
 public class RegisterController {
-    @ManagedProperty(value = "#{userBean}")
-    private UserBean userBean;
+    @ManagedProperty(value = "#{authenticationBean}")
+    private AuthenticationBean authenticationBean;
 
-    public UserBean getUserBean() {
-        return userBean;
+    public AuthenticationBean getAuthenticationBean() {
+        return authenticationBean;
     }
 
-    public void setUserBean(UserBean userBean) {
-        this.userBean = userBean;
+    public void setAuthenticationBean(AuthenticationBean authenticationBean) {
+        this.authenticationBean = authenticationBean;
     }
 
     private String username;
@@ -76,9 +76,12 @@ public class RegisterController {
     public void register() {
         try {
             User newUser = new User(this.name, this.username, this.telephone, this.password);
-            this.userBean.addData(newUser);
+            this.authenticationBean.addData(newUser);
             MessageHelper.addInfoMessage("Erfolg", "Der Benutzer wurde erfolgreich angelegt");
-            this.userBean.tryLogin(this.username, this.password);
+            boolean loggedIn = this.authenticationBean.tryLogin(this.username, this.password);
+            if (loggedIn) {
+                FacesContext.getCurrentInstance().getExternalContext().redirect("/report");
+            }
         } catch (Exception e) {
             MessageHelper.addErrorMessage("Beim Anlegen des Benutzers ist ein Fehler aufgetreten:" + e.getMessage());
         }

@@ -1,24 +1,28 @@
 package com.controllers;
 
-import com.beans.UserBean;
+import com.beans.AuthenticationBean;
+import com.helper.MessageHelper;
+import org.h2.expression.Variable;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
+import java.io.IOException;
 
 @ManagedBean
 @ViewScoped
 public class LoginController {
-    
-    @ManagedProperty(value = "#{userBean}")
-    private UserBean userBean;
 
-    public UserBean getUserBean() {
-        return userBean;
+    @ManagedProperty(value = "#{authenticationBean}")
+    private AuthenticationBean authenticationBean;
+
+    public AuthenticationBean getAuthenticationBean() {
+        return authenticationBean;
     }
 
-    public void setUserBean(UserBean userBean) {
-        this.userBean = userBean;
+    public void setAuthenticationBean(AuthenticationBean authenticationBean) {
+        this.authenticationBean = authenticationBean;
     }
 
     private String username;
@@ -41,7 +45,14 @@ public class LoginController {
     }
 
     public void login() {
-//        ControllerHelper.ensureNoSubmitOnRefresh();
-        this.userBean.tryLogin(this.username, this.password);
+        try {
+            boolean loggedIn = this.authenticationBean.tryLogin(this.username, this.password);
+            if (loggedIn) {
+                FacesContext.getCurrentInstance().getExternalContext().redirect("/report");
+            }
+
+        } catch (IOException e) {
+            MessageHelper.addErrorMessage("Beim Anmelden des Benutzers ist ein Fehler aufgetreten:" + e.getMessage());
+        }
     }
 }

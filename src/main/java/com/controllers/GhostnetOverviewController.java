@@ -1,9 +1,9 @@
 package com.controllers;
 
+import com.beans.AuthenticationBean;
 import com.enums.GhostnetStatus;
 import com.data.GhostnetDataStore;
 import com.helper.MessageHelper;
-import com.beans.UserBean;
 import entities.Ghostnet;
 import jakarta.inject.Named;
 import org.primefaces.model.*;
@@ -26,15 +26,15 @@ public class GhostnetOverviewController implements Serializable {
         lazyModel = readDataLazyModel();
     }
 
-    @ManagedProperty(value = "#{userBean}")
-    private UserBean userBean;
+    @ManagedProperty(value = "#{authenticationBean}")
+    private AuthenticationBean authenticationBean;
 
-    public UserBean getUserBean() {
-        return userBean;
+    public AuthenticationBean getAuthenticationBean() {
+        return authenticationBean;
     }
 
-    public void setUserBean(UserBean userBean) {
-        this.userBean = userBean;
+    public void setAuthenticationBean(AuthenticationBean authenticationBean) {
+        this.authenticationBean = authenticationBean;
     }
 
     private LazyDataModel<Ghostnet> lazyModel;
@@ -46,7 +46,7 @@ public class GhostnetOverviewController implements Serializable {
     public String changeStatus(Ghostnet ghostnet, String status) {
         GhostnetStatus newStatus = GhostnetStatus.valueOf(status);
         Ghostnet ghostnetFromDb = ghostnetDataStore.getGhostnet(ghostnet.getId());
-        if(ghostnetFromDb != null && ghostnetFromDb.setNewStatusIfAllowed(newStatus, userBean.getLoggedInUser())){
+        if(ghostnetFromDb != null && ghostnetFromDb.setNewStatusIfAllowed(newStatus, authenticationBean.getLoggedInUser())){
             ghostnetDataStore.updateGhostnet(ghostnetFromDb);
             ghostnet.Status = ghostnetFromDb.Status;
             ghostnet.AssignedUser = ghostnetFromDb.AssignedUser;

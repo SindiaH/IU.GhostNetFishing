@@ -7,7 +7,7 @@
     <h:form styleClass="custom-form">
         <div class="input-container">
             <c:choose>
-                <c:when test="#{(!userBean.isLoggedIn)}">
+                <c:when test="#{(!authenticationBean.isLoggedIn)}">
                     <h:outputLabel for="reporter" value="Name des Melders*"/>
                     <h:inputText styleClass="ui-inputfield"
                                  id="reporter"
@@ -18,19 +18,19 @@
                     <h:inputText styleClass="ui-inputfield"
                                  id="phoneNumber"
                                  value="#{reportGhostnetController.phoneNumber}"
-                                 validator="#{userBean.validateNotRequiredTelephone}"/>
+                                 validator="#{authenticationBean.validateNotRequiredTelephone}"/>
                 </c:when>
                 <c:otherwise>
                     <h:outputLabel for="reporter2" value="Name des Melders*"/>
                     <h:inputText styleClass="ui-inputfield"
                                  id="reporter2"
-                                 value="#{userBean.loggedInName}"
+                                 value="#{authenticationBean.loggedInName}"
                                  disabled="true"
                                  required="true"/>
                     <h:outputLabel for="phoneNumber2" value="Telefonnummer des Melders"/>
                     <h:inputText styleClass="ui-inputfield"
                                  id="phoneNumber2"
-                                 value="#{userBean.loggedInTelephone}"
+                                 value="#{authenticationBean.loggedInTelephone}"
                                  disabled="true"
                                  required="true"/>
                 </c:otherwise>

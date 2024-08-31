@@ -1,7 +1,6 @@
 package com.controllers;
 
 import com.data.GhostnetDataStore;
-import com.helper.ControllerHelper;
 import com.helper.MessageHelper;
 import com.beans.UserBean;
 import com.services.Validator;
@@ -14,7 +13,6 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
-import java.io.IOException;
 
 @ManagedBean
 @ViewScoped
@@ -86,7 +84,7 @@ public class ReportGhostnetController {
         User user = userBean.getLoggedInUser();
 
         if (userBean.getIsLoggedIn() && user != null) {
-            Ghostnet ghostnet = new Ghostnet(user.getId(), user.Name, user.Telephone,
+            Ghostnet ghostnet = new Ghostnet(user.Name, user.Telephone,
                     this.longitude, this.latitude, this.size, GhostnetStatus.Reported);
             this.ghostnetDataStore.addGhostnet(ghostnet);
         } else if (Validator.isNullOrEmpty(this.reporterName)) {

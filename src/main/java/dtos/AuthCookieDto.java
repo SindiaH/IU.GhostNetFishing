@@ -16,6 +16,6 @@ public class AuthCookieDto {
         this.telephone = telephone;
     }
     
-    // Needed for Jackson deserialization
+    // Needed for Json deserialization
     public AuthCookieDto() {}
 }

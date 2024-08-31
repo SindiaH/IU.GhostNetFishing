@@ -5,6 +5,7 @@ import javax.faces.context.FacesContext;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 import com.enums.GhostnetStatus;
 
@@ -29,23 +30,11 @@ public class Ghostnet {
         this.Status = status;
     }
 
-    public Ghostnet(int userId, String reporterName, String reporterPhoneNumber, String longitude, String latitude, int size, GhostnetStatus status) {
-        this.ReporterId = userId;
-        this.ReporterName = reporterName;
-        this.ReporterPhoneNumber = reporterPhoneNumber;
-        this.Longitude = longitude;
-        this.Latitude = latitude;
-        this.Size = size;
-        this.CreatedAt = new Date();
-        this.Status = status;
-    }
-
-    public int ReporterId;
     public String ReporterName;
     public String ReporterPhoneNumber;
-    public int AssignedUserId;
-    public String AssignedUserName;
-    public String AssignedUserPhoneNumber;
+
+    @ManyToOne
+    public User AssignedUser;
 
     public String Longitude;
     public String Latitude;
@@ -79,19 +68,11 @@ public class Ghostnet {
     }
 
     public String getAssignedUserName() {
-        return AssignedUserName;
-    }
-
-    public void setAssignedUserName(String assignedUserName) {
-        AssignedUserName = assignedUserName;
+        return AssignedUser != null ? AssignedUser.Name : "";
     }
 
     public String getAssignedUserPhoneNumber() {
-        return AssignedUserPhoneNumber;
-    }
-
-    public void setAssignedUserPhoneNumber(String assignedUserPhoneNumber) {
-        AssignedUserPhoneNumber = assignedUserPhoneNumber;
+        return AssignedUser != null ? AssignedUser.Telephone : "";
     }
 
     public String getLongitude() {
@@ -165,11 +146,11 @@ public class Ghostnet {
     }
 
     public boolean canSetRecovered(User user) {
-        return Status == GhostnetStatus.RecoveryImminent && user != null && user.getId() == AssignedUserId;
+        return Status == GhostnetStatus.RecoveryImminent && user != null && user.getId() == AssignedUser.getId();
     }
 
     public boolean canSetLost(User user) {
-        return Status == GhostnetStatus.RecoveryImminent && user != null && user.getId() == AssignedUserId;
+        return Status == GhostnetStatus.RecoveryImminent && user != null;
     }
 
     public boolean canChangeStatus(User user) {
@@ -194,9 +175,7 @@ public class Ghostnet {
         }
         
         if (newStatus == GhostnetStatus.RecoveryImminent) {
-            AssignedUserName = user.Name;
-            AssignedUserId = user.getId();
-            AssignedUserPhoneNumber = user.Telephone;
+            AssignedUser = user;
         }
         Status = newStatus;
         return true;

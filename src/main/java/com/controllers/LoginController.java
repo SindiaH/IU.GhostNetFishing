@@ -1,12 +1,10 @@
 package com.controllers;
 
 import com.beans.UserBean;
-import com.helper.ControllerHelper;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import java.io.IOException;
 
 @ManagedBean
 @ViewScoped

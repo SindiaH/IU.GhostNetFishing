@@ -8,7 +8,7 @@
         <div class="input-container">
             <c:choose>
                 <c:when test="#{(!userBean.isLoggedIn)}">
-                    <h:outputLabel for="reporter" value="Name des Melders"/>
+                    <h:outputLabel for="reporter" value="Name des Melders*"/>
                     <h:inputText styleClass="ui-inputfield"
                                  id="reporter"
                                  value="#{reportGhostnetController.reporterName}"
@@ -18,10 +18,10 @@
                     <h:inputText styleClass="ui-inputfield"
                                  id="phoneNumber"
                                  value="#{reportGhostnetController.phoneNumber}"
-                                 validator="#{userBean.validateTelephone}"/>
+                                 validator="#{userBean.validateNotRequiredTelephone}"/>
                 </c:when>
                 <c:otherwise>
-                    <h:outputLabel for="reporter2" value="Name des Melders"/>
+                    <h:outputLabel for="reporter2" value="Name des Melders*"/>
                     <h:inputText styleClass="ui-inputfield"
                                  id="reporter2"
                                  value="#{userBean.loggedInName}"
@@ -36,15 +36,15 @@
                 </c:otherwise>
             </c:choose>
 
-            <h:outputLabel for="latitude" value="Breitengrad"/>
+            <h:outputLabel for="latitude" value="Breitengrad*"/>
             <h:inputText styleClass="ui-inputfield" id="latitude" value="#{reportGhostnetController.latitude}"
                          a:placeholder="00.00000"
                          validator="#{reportGhostnetController.validateCoordinateFormat}"/>
-            <h:outputLabel for="longitude" value="Längengrad"/>
+            <h:outputLabel for="longitude" value="Längengrad*"/>
             <h:inputText styleClass="ui-inputfield" id="longitude" value="#{reportGhostnetController.longitude}"
                          a:placeholder="-0.00"
                          validator="#{reportGhostnetController.validateCoordinateFormat}"/>
-            <h:outputLabel for="size" value="Geschätzte Größe des Netzes in Metern"/>
+            <h:outputLabel for="size" value="Geschätzte Größe des Netzes in Metern*"/>
             <h:inputText styleClass="ui-inputfield" id="size" value="#{reportGhostnetController.size}"
                          required="true" requiredMessage="Die Größe ist ein Pflichtfeld"/>
         </div>

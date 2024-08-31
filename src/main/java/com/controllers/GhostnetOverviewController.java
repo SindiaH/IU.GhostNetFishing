@@ -2,7 +2,6 @@ package com.controllers;
 
 import com.enums.GhostnetStatus;
 import com.data.GhostnetDataStore;
-import com.helper.ControllerHelper;
 import com.helper.MessageHelper;
 import com.beans.UserBean;
 import entities.Ghostnet;
@@ -50,9 +49,7 @@ public class GhostnetOverviewController implements Serializable {
         if(ghostnetFromDb != null && ghostnetFromDb.setNewStatusIfAllowed(newStatus, userBean.getLoggedInUser())){
             ghostnetDataStore.updateGhostnet(ghostnetFromDb);
             ghostnet.Status = ghostnetFromDb.Status;
-            ghostnet.AssignedUserPhoneNumber = ghostnetFromDb.AssignedUserPhoneNumber;
-            ghostnet.AssignedUserId = ghostnetFromDb.AssignedUserId;
-            ghostnet.AssignedUserName = ghostnetFromDb.AssignedUserName;
+            ghostnet.AssignedUser = ghostnetFromDb.AssignedUser;
 
             MessageHelper.addInfoMessage("Status geändert", "Status wurde erfolgreich auf " + status + " geändert");
         } else {

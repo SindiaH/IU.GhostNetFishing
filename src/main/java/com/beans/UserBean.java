@@ -114,8 +114,8 @@ public class UserBean {
         return "true";
     }
 
-    public void validateTelephone(FacesContext context, UIComponent component, String value) {
-        if (Validator.isInvalidPhoneNumber(value)) {
+    public void validateNotRequiredTelephone(FacesContext context, UIComponent component, String value) {
+        if (Validator.isInvalidPhoneNumber(value, false)) {
             MessageHelper.throwErrorMessage("Telefonnummer muss das typische Format haben, zB.: 0123456789");
         }
     }

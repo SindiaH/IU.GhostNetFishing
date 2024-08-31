@@ -16,10 +16,12 @@
                     <p:column headerText="Status">
                         <h:outputText value="#{ghostnet.statusName}"/>
                     </p:column>
-                    <p:column headerText="Meldende Person">
-                        <div><h:outputText value="#{ghostnet.reporterName}"/></div>
-                        <div>Tel.: <h:outputText value="#{ghostnet.reporterPhoneNumber}"/></div>
-                    </p:column>
+                    <c:if test="#{userBean.isLoggedIn}">
+                        <p:column headerText="Meldende Person">
+                            <div><h:outputText value="#{ghostnet.reporterName}"/></div>
+                            <div><h:outputText value="#{ghostnet.reporterPhoneNumber}"/></div>
+                        </p:column>
+                    </c:if>
                     <p:column headerText="gesch. Größe">
                         <h:outputText value="#{ghostnet.size}"/>
                     </p:column>
@@ -29,10 +31,12 @@
                     <p:column headerText="Längengrad">
                         <h:outputText value="#{ghostnet.longitude}"/>
                     </p:column>
-                    <p:column headerText="Bergende Person">
-                        <div><h:outputText value="#{ghostnet.assignedUserName}"/></div>
-                        <div><h:outputText value="#{ghostnet.assignedUserPhoneNumber}"/></div>
-                    </p:column>
+                    <c:if test="#{userBean.isLoggedIn}">
+                        <p:column headerText="Bergende Person">
+                            <div><h:outputText value="#{ghostnet.assignedUserName}"/></div>
+                            <div><h:outputText value="#{ghostnet.assignedUserPhoneNumber}"/></div>
+                        </p:column>
+                    </c:if>
                     <p:column headerText="" styleClass="status-column">
                         <p:menuButton value="Status ändern"
                                       rendered="#{ghostnet.canChangeStatus(userBean.loggedInUser)}"
@@ -52,7 +56,7 @@
                                             ajax="false"/>
                             </c:if>
                             <c:if test="#{!userBean.isLoggedIn}">
-                                <p:menuitem value="Aktionen nur für eingeloggte Benutzer verfügbar"/>
+                                <p:menuitem value="Aktionen sind nur für eingeloggte Benutzer verfügbar"/>
                             </c:if>
                         </p:menuButton>
 

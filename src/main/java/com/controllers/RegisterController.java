@@ -1,6 +1,5 @@
 package com.controllers;
 
-import com.helper.ControllerHelper;
 import com.helper.MessageHelper;
 import com.beans.UserBean;
 import com.services.Validator;
@@ -75,7 +74,6 @@ public class RegisterController {
     }
 
     public void register() {
-        ControllerHelper.ensureNoSubmitOnRefresh();
         try {
             User newUser = new User(this.name, this.username, this.telephone, this.password);
             this.userBean.addData(newUser);
@@ -102,7 +100,7 @@ public class RegisterController {
     }
 
     public void validateTelephone(FacesContext context, UIComponent component, String value) {
-        if (Validator.isInvalidPhoneNumber(value)) {
+        if (Validator.isInvalidPhoneNumber(value, true)) {
             MessageHelper.throwErrorMessage("Telefonnummer muss das typische Format haben, zB.: 0123456789");
         }
     }

@@ -129,18 +129,7 @@ public class Ghostnet {
     public void setStatus(GhostnetStatus status) {
         Status = status;
     }
-
-    public String changeStatus(GhostnetStatus status) {
-        Status = status;
-        addMessage("Save", "Data saved");
-        return "ghostnetOverview";
-    }
-
-    public void addMessage(String summary, String detail) {
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, detail);
-        FacesContext.getCurrentInstance().addMessage(null, message);
-    }
-
+    
     public boolean canSetRecoveryImminent() {
         return Status == GhostnetStatus.Reported;
     }

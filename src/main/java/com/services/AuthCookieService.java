@@ -16,10 +16,8 @@ import java.util.Map;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-@ManagedBean
-@ViewScoped
 public class AuthCookieService {
-    public static int MAX_AGE = 31536000;
+    public static int MAX_AGE = 43200;
     public static String AUTH_COOKIE_NAME = "authValue";
 
     public static void saveUserToCookie(User user) {

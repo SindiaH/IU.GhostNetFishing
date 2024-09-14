@@ -12,7 +12,6 @@ public class NavigationBean {
     
     public boolean isCurrentlyActive(String path) {
         HttpServletRequest request = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
-        String url = request.getRequestURL().toString();
         String uri = request.getRequestURI();
         return uri.contains(path);
     }
